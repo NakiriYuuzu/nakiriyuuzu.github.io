@@ -1,0 +1,521 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+
+
+  <title>Yuuzu Music Player</title>
+  
+  
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+  
+<style>
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #fff;
+}
+
+.title h1 {
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+.site {
+  height: 100vh;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-flow: column nowrap;
+  background-color: #1976D2;
+}
+.site main {
+  -webkit-box-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.box {
+  margin: .5rem 1.5rem;
+}
+.box input, .box audio {
+  display: none;
+}
+
+#open-file {
+  background-color: #E91E63;
+  color: white;
+  outline: none;
+  font-weight: 500;
+  cursor: pointer;
+  border: 0;
+  -webkit-transition: all 150ms ease;
+  transition: all 150ms ease;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  margin: 0;
+  padding: 1rem 1.1rem;
+}
+#open-file .material-icons {
+  width: 24px;
+  height: 24px;
+  margin-top: .2rem;
+  display: block;
+}
+#open-file:hover {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+}
+#open-file:active {
+  background-color: #D81B60;
+}
+
+footer {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+}
+
+.controls {
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  z-index: 99;
+  background-color: #E91E63;
+}
+.controls button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: #AD1457;
+  padding: .5rem 1rem;
+  outline: none;
+  -webkit-transition: all 150ms ease;
+  transition: all 150ms ease;
+}
+.controls button:hover {
+  color: #880E4F;
+}
+.controls .progress {
+  -webkit-box-flex: 1;
+          flex: 1;
+}
+
+.progress {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: stretch;
+          justify-content: stretch;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+}
+.progress:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.progress #progress-bar {
+  background-color: #AD1457;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+  width: 100%;
+}
+
+.song-meta {
+  position: fixed;
+  top: calc(50% - 228px);
+  left: calc(50% - 128px);
+}
+.song-meta figure {
+  width: 256px;
+  height: 256px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  will-change: transform;
+}
+.song-meta figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: .5rem;
+  border-radius: 50%;
+  -webkit-animation: rotate 20s linear infinite;
+          animation: rotate 20s linear infinite;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+#song {
+  font-size: 2rem;
+  font-weight: 300;
+  display: block;
+  margin-bottom: 0;
+}
+
+#artist {
+  margin: 0;
+}
+
+.spectrum {
+  -webkit-box-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-align: end;
+          align-items: flex-end;
+  -webkit-filter: url("#goo");
+          filter: url("#goo");
+  box-sizing: border-box;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  position: relative;
+  height: 100px;
+}
+.spectrum .bar {
+  background-color: #E91E63;
+  -webkit-box-flex: 1;
+          flex: 1 1 auto;
+  height: 200px;
+  -webkit-transform: translateZ(0) translateY(200px);
+          transform: translateZ(0) translateY(200px);
+  will-change: transform;
+  contain: strict;
+  overflow: hidden;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div class="site">
+  <main>
+    <button id="open-file"><span class="material-icons">folder open</span></button>
+    <div class="box title">
+      <div class="intro">
+        <h1>YuuzuMusic Player</h1>
+        <p>Click the icon to the right to open an MP3-file to play</p>
+      </div>
+      <h1 id="song"></h1>
+      <p id="artist"></p>
+    </div>
+    <div class="box">
+      <input id="file-open" type="file"/>
+      <audio autoplay="autoplay" controls="controls"></audio>
+    </div>
+    <div class="box song-meta">
+      <figure id="cover-holder"><img id="cover" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Song Cover"/></figure>
+    </div>
+  </main>
+  <footer>
+    <div class="spectrum">
+      <div class="bar" id="bar-1"></div>
+      <div class="bar" id="bar-2"></div>
+      <div class="bar" id="bar-3"></div>
+      <div class="bar" id="bar-4"></div>
+      <div class="bar" id="bar-5"></div>
+      <div class="bar" id="bar-6"></div>
+      <div class="bar" id="bar-7"></div>
+      <div class="bar" id="bar-8"></div>
+      <div class="bar" id="bar-9"></div>
+      <div class="bar" id="bar-10"></div>
+      <div class="bar" id="bar-11"></div>
+      <div class="bar" id="bar-12"></div>
+      <div class="bar" id="bar-13"></div>
+      <div class="bar" id="bar-14"></div>
+      <div class="bar" id="bar-15"></div>
+      <div class="bar" id="bar-16"></div>
+      <div class="bar" id="bar-17"></div>
+      <div class="bar" id="bar-18"></div>
+      <div class="bar" id="bar-19"></div>
+      <div class="bar" id="bar-20"></div>
+      <div class="bar" id="bar-21"></div>
+      <div class="bar" id="bar-22"></div>
+      <div class="bar" id="bar-23"></div>
+      <div class="bar" id="bar-24"></div>
+      <div class="bar" id="bar-25"></div>
+      <div class="bar" id="bar-26"></div>
+      <div class="bar" id="bar-27"></div>
+      <div class="bar" id="bar-28"></div>
+      <div class="bar" id="bar-29"></div>
+      <div class="bar" id="bar-30"></div>
+      <div class="bar" id="bar-31"></div>
+      <div class="bar" id="bar-32"></div>
+      <div class="bar" id="bar-33"></div>
+      <div class="bar" id="bar-34"></div>
+      <div class="bar" id="bar-35"></div>
+      <div class="bar" id="bar-36"></div>
+      <div class="bar" id="bar-37"></div>
+      <div class="bar" id="bar-38"></div>
+      <div class="bar" id="bar-39"></div>
+      <div class="bar" id="bar-40"></div>
+      <div class="bar" id="bar-41"></div>
+      <div class="bar" id="bar-42"></div>
+      <div class="bar" id="bar-43"></div>
+      <div class="bar" id="bar-44"></div>
+      <div class="bar" id="bar-45"></div>
+      <div class="bar" id="bar-46"></div>
+      <div class="bar" id="bar-47"></div>
+      <div class="bar" id="bar-48"></div>
+      <div class="bar" id="bar-49"></div>
+      <div class="bar" id="bar-50"></div>
+      <div class="bar" id="bar-51"></div>
+      <div class="bar" id="bar-52"></div>
+      <div class="bar" id="bar-53"></div>
+      <div class="bar" id="bar-54"></div>
+      <div class="bar" id="bar-55"></div>
+      <div class="bar" id="bar-56"></div>
+      <div class="bar" id="bar-57"></div>
+      <div class="bar" id="bar-58"></div>
+      <div class="bar" id="bar-59"></div>
+      <div class="bar" id="bar-60"></div>
+      <div class="bar" id="bar-61"></div>
+      <div class="bar" id="bar-62"></div>
+      <div class="bar" id="bar-63"></div>
+      <div class="bar" id="bar-64"></div>
+      <div class="bar" id="bar-65"></div>
+      <div class="bar" id="bar-66"></div>
+      <div class="bar" id="bar-67"></div>
+      <div class="bar" id="bar-68"></div>
+      <div class="bar" id="bar-69"></div>
+      <div class="bar" id="bar-70"></div>
+      <div class="bar" id="bar-71"></div>
+      <div class="bar" id="bar-72"></div>
+      <div class="bar" id="bar-73"></div>
+      <div class="bar" id="bar-74"></div>
+      <div class="bar" id="bar-75"></div>
+      <div class="bar" id="bar-76"></div>
+      <div class="bar" id="bar-77"></div>
+      <div class="bar" id="bar-78"></div>
+      <div class="bar" id="bar-79"></div>
+      <div class="bar" id="bar-80"></div>
+      <div class="bar" id="bar-81"></div>
+      <div class="bar" id="bar-82"></div>
+      <div class="bar" id="bar-83"></div>
+      <div class="bar" id="bar-84"></div>
+      <div class="bar" id="bar-85"></div>
+      <div class="bar" id="bar-86"></div>
+      <div class="bar" id="bar-87"></div>
+      <div class="bar" id="bar-88"></div>
+      <div class="bar" id="bar-89"></div>
+      <div class="bar" id="bar-90"></div>
+      <div class="bar" id="bar-91"></div>
+      <div class="bar" id="bar-92"></div>
+      <div class="bar" id="bar-93"></div>
+      <div class="bar" id="bar-94"></div>
+      <div class="bar" id="bar-95"></div>
+      <div class="bar" id="bar-96"></div>
+      <div class="bar" id="bar-97"></div>
+      <div class="bar" id="bar-98"></div>
+      <div class="bar" id="bar-99"></div>
+      <div class="bar" id="bar-100"></div>
+      <div class="bar" id="bar-101"></div>
+      <div class="bar" id="bar-102"></div>
+      <div class="bar" id="bar-103"></div>
+      <div class="bar" id="bar-104"></div>
+      <div class="bar" id="bar-105"></div>
+      <div class="bar" id="bar-106"></div>
+      <div class="bar" id="bar-107"></div>
+      <div class="bar" id="bar-108"></div>
+      <div class="bar" id="bar-109"></div>
+      <div class="bar" id="bar-110"></div>
+      <div class="bar" id="bar-111"></div>
+      <div class="bar" id="bar-112"></div>
+      <div class="bar" id="bar-113"></div>
+      <div class="bar" id="bar-114"></div>
+      <div class="bar" id="bar-115"></div>
+      <div class="bar" id="bar-116"></div>
+      <div class="bar" id="bar-117"></div>
+      <div class="bar" id="bar-118"></div>
+      <div class="bar" id="bar-119"></div>
+      <div class="bar" id="bar-120"></div>
+      <div class="bar" id="bar-121"></div>
+      <div class="bar" id="bar-122"></div>
+      <div class="bar" id="bar-123"></div>
+      <div class="bar" id="bar-124"></div>
+      <div class="bar" id="bar-125"></div>
+      <div class="bar" id="bar-126"></div>
+      <div class="bar" id="bar-127"></div>
+    </div>
+    <div class="controls">
+      <button id="play-pause-button"><span class="material-icons">play_arrow</span></button>
+      <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+  </footer>
+</div>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800">
+  <defs></defs>
+  <filter id="goo">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+    <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+  </filter>
+</svg>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+
+  
+  
+      <script id="rendered-js" >
+const $ = q => document.querySelector(q);
+
+const visualWidth = 318;
+const visualHeight = 200;
+
+const audio = $("audio");
+const coverHolder = $("#cover-holder");
+const cover = $(".song-meta figure img");
+const progressBar = $("#progress-bar");
+
+const audioContext = new AudioContext();
+const source = audioContext.createMediaElementSource(audio);
+const analyser = audioContext.createAnalyser();
+let fileInfo = "";
+
+source.connect(analyser);
+analyser.connect(audioContext.destination);
+analyser.fftSize = 1024;
+
+const bufferLength = analyser.frequencyBinCount;
+const frequencyData = new Uint8Array(bufferLength);
+
+const bars = [];
+
+for (let i = 1; i <= 128; i++) {
+  bars.push(document.getElementById("bar-" + i));
+}
+
+const MusicVisuals = {
+  rafId: null,
+  start() {
+    analyser.getByteFrequencyData(frequencyData);
+
+    let barcc = 0;
+    const numberOfBars = 128;
+
+    for (let increment = -1; increment < numberOfBars * 2; increment += 2) {
+      const y = frequencyData[increment];
+
+      barcc++;
+
+      if (barcc > numberOfBars) {
+        barcc = 0;
+      }
+
+      const bar = bars[barcc];
+
+      if (bar) {
+        bar.style.transform = `translateZ(0) translateY(${275 - y}px)`;
+      }
+    }
+
+    MusicVisuals.rafId = requestAnimationFrame(MusicVisuals.start);
+  },
+  stop() {
+    cancelAnimationFrame(MusicVisuals.rafId);
+  } };
+
+
+$("#open-file").addEventListener("click", () => {
+  audioContext.resume();
+  $("#file-open").click();
+});
+
+$("#file-open").addEventListener("change", e => {
+  const file = e.target.files[0];
+  const url = URL.createObjectURL(file);
+
+  audio.src = url;
+
+  audio.
+  play().
+  then(() => {}).
+  catch(() => {
+    audio.pause();
+    $(".box.title .intro p").innerHTML +=
+    "<br><br><strong>Autoplay was blocked. Press play below to play!</strong>";
+  });
+});
+
+$("#play-pause-button").addEventListener("click", () =>
+audio.paused ? audio.play() : audio.pause());
+
+
+$("audio").addEventListener("play", () => {
+  $("#play-pause-button span").textContent = "pause";
+  MusicVisuals.start();
+
+  cover.style.animationPlayState = "running";
+});
+
+$("audio").addEventListener("pause", () => {
+  $("#play-pause-button span").textContent = "play_arrow";
+
+  for (let i = 0; i < bars.length; i++) {
+    if (bars[i]) {
+      bars[i].style.transform = null;
+    }
+  }
+
+  MusicVisuals.stop();
+  cover.style.animationPlayState = "paused";
+});
+
+$("audio").addEventListener("ended", () => {
+  MusicVisuals.stop();
+  cover.style.animationPlayState = "running";
+});
+
+const progressWidth = $(".progress").offsetWidth;
+
+$("audio").addEventListener("timeupdate", () => {
+  const p = audio.currentTime / audio.duration * 100;
+
+  progressBar.style.width = p + "%";
+});
+
+$(".progress").addEventListener("click", e => {
+  const mouseX = e.pageX;
+  const boundingRect = e.target.getBoundingClientRect();
+  const barX = boundingRect.left;
+  const percent = boundingRect.width / (e.pageX - barX);
+
+  audio.currentTime = audio.duration / percent;
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 

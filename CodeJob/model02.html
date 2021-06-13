@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<title>Web Page Design</title>
+<head>
+<style type="text/css">
+@import "https://fonts.googleapis.com/css?family=Montserrat:300,400,700";
+.rwd-table {
+  margin: 1em 0;
+  min-width: 300px;
+  max-width:60%;
+}
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  width:500px;
+}
+.rwd-table th {
+  display: none;
+  width:500px;
+}
+.rwd-table td {
+  display: block;
+}
+.rwd-table td:first-child {
+  padding-top: 1em;
+}
+.rwd-table td:last-child {
+  padding-bottom: .5em;
+}
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 6.5em;
+  display: inline-block;
+}
+@media (min-width: 480px) {
+  .rwd-table td:before {
+    display: none;
+  }
+}
+.rwd-table th, .rwd-table td {
+  text-align: left;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    display: table-cell;
+    padding: .25em .5em;
+  }
+  .rwd-table th:first-child, .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child, .rwd-table td:last-child {
+    padding-right: 0;
+  }
+}
+
+body {
+  padding: 0 2em;
+  font-family: Montserrat, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #fff;
+}
+
+h1 {
+  font-weight: normal;
+  letter-spacing: -1px;
+  color: #34495E;
+}
+
+.rwd-table {
+  margin-left: auto;
+  margin-right:auto;
+  background: #34495E;
+  color: #fff;
+  border-radius: .4em;
+  overflow: hidden;
+}
+.rwd-table tr {
+  border-color: #46637f;
+}
+.rwd-table th, .rwd-table td {
+  margin: .5em 1em;
+}
+@media (min-width: 480px) {
+  .rwd-table th, .rwd-table td {
+    padding: 15px !important;
+  }
+}
+.rwd-table th, .rwd-table td:before {
+  color: #dd5;
+}
+
+</style>
+</head>
+<body>
+<table class="rwd-table">
+  <thead>
+  <tr>
+    <th>職別</th>
+    <th>姓名</th>
+    <th>畢業系所/年</th>
+  </tr>
+  </thead>
+  <tbody>
+   <tr>
+    <td data-th="職別">理事長</td>
+    <td data-th="姓名">費廣明</td>
+    <td data-th="畢業系所/年">管碩專班/2006</td>
+  </tr>
+  <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">陳淑珠</td>
+    <td data-th="畢業系所/年">中文系/1970</td>
+  </tr>
+  <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">楊國娟</td>
+    <td data-th="畢業系所/年">中文系/1970</td>
+  </tr>
+    <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">高信誠</td>
+    <td data-th="畢業系所/年">外文系/1973</td>
+  </tr>
+    <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">蔡瑛雲</td>
+    <td data-th="畢業系所/年">外文系/1965</td>
+  </tr>  <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">蔡素珍</td>
+    <td data-th="畢業系所/年">化學系/1977</td>
+  </tr>  <tr>
+    <td data-th="職別">常務理事</td>
+    <td data-th="姓名">周建旭</td>
+    <td data-th="畢業系所/年">應數系/2000</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">蔡陽明</td>
+    <td data-th="畢業系所/年">管碩專班/2010</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">李國嘉</td>
+    <td data-th="畢業系所/年">化學系/1976</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">江玉華</td>
+    <td data-th="畢業系所/年">外文系/1968</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">劉秋香</td>
+    <td data-th="畢業系所/年">商學系/1986</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">蕭穗珍</td>
+    <td data-th="畢業系所/年">中文系/1981</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">蔡美秀</td>
+    <td data-th="畢業系所/年">商學系/1984</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">許耀文</td>
+    <td data-th="畢業系所/年">應化系/2005</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">陳敏麗</td>
+    <td data-th="畢業系所/年">商學系/1976</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">許宜宜</td>
+    <td data-th="畢業系所/年">商學系/1980</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">黃延君</td>
+    <td data-th="畢業系所/年">食營系/1984</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">王建竣</td>
+    <td data-th="畢業系所/年">會計系/2007</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">李淑女</td>
+    <td data-th="畢業系所/年">商學系/1977</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">蔣金鵑</td>
+    <td data-th="畢業系所/年">外文系/1973</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">黃一凡</td>
+    <td data-th="畢業系所/年">食營系/1998</td>
+  </tr>  <tr>
+    <td data-th="職別">理事</td>
+    <td data-th="姓名">李國嘉</td>
+    <td data-th="畢業系所/年">化學系/1976</td>
+  </tr>  <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">羅雅惠</td>
+    <td data-th="畢業系所/年">外文系/1973</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">郭翠華</td>
+    <td data-th="畢業系所/年">外文系/1979</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">遲爾淳</td>
+    <td data-th="畢業系所/年">商學系/1968</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">張英玫</td>
+    <td data-th="畢業系所/年">商學系/1972</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">林姿如</td>
+    <td data-th="畢業系所/年">西文系/1995</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">何寶慈</td>
+    <td data-th="畢業系所/年">外文系/1977</td>
+  </tr> <tr>
+    <td data-th="職別">監事</td>
+    <td data-th="姓名">孫豐林</td>
+    <td data-th="畢業系所/年">商學系/1968</td>
+  </tr> <tr>
+    <td data-th="職別">秘書長</td>
+    <td data-th="姓名">楊其明</td>
+    <td data-th="畢業系所/年">管碩專班/2006</td>
+  </tr> <tr>
+    <td data-th="職別">副秘書長</td>
+    <td data-th="姓名">林彤憶</td>
+    <td data-th="畢業系所/年">管碩專班/2006</td>
+  </tr> <tr>
+    <td data-th="職別">副秘書長</td>
+    <td data-th="姓名">何順源</td>
+    <td data-th="畢業系所/年">管碩專班/2010</td>
+  </tr> <tr>
+    <td data-th="職別">財務會計</td>
+    <td data-th="姓名">劉育滌</td>
+    <td data-th="畢業系所/年">管碩專班/2006</td>
+  </tr> <tr>
+    <td data-th="職別">財務出納</td>
+    <td data-th="姓名">蔡和翰</td>
+    <td data-th="畢業系所/年">資管系/2006</td>
+  </tr> <tr>
+    <td data-th="職別">幹事</td>
+    <td data-th="姓名">蘇小玲</td>
+    <td data-th="畢業系所/年">會計系/2006</td>
+  </tr> <tr>
+    <td data-th="職別">幹事</td>
+    <td data-th="姓名">李靖華</td>
+    <td data-th="畢業系所/年">會計系/2015</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">陳明媚</td>
+    <td data-th="畢業系所/年">外文系/1989</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">蕭同仁</td>
+    <td data-th="畢業系所/年">青兒福系/2003</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">郭建宏</td>
+    <td data-th="畢業系所/年">觀光系/2002</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">陳秋花</td>
+    <td data-th="畢業系所/年">應化系/1971</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">陳怡君</td>
+    <td data-th="畢業系所/年">西文系/1993</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">陳孟君</td>
+    <td data-th="畢業系所/年">英文系/2000</td>
+  </tr> <tr>
+    <td data-th="職別">候補理事</td>
+    <td data-th="姓名">張英玫</td>
+    <td data-th="畢業系所/年">商學系/1972</td>
+  </tr>
+  
+  </tbody>
+</table>
+</body>
+</html>

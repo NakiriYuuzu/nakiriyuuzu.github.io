@@ -1,0 +1,304 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fgo</title>
+
+<script>
+var animationDone = false;
+var cardAnim = anime.timeline();
+var cardCount = $('.achievement-card-box').length;
+cardAnim.add({
+  targets: ".achievement-card-box",
+  rotateY: [180,1080],
+  translateY: [150,0],
+  transformOrigin: ["50% 100%", "50% 100%"],
+  easing: "easeOutQuad",
+  scale: [0,0.8],
+  delay: 1500,
+  duration: 500
+})
+  .add({
+  targets: "#achievement-info",
+  scaleY: [0,1],
+  duration: 400,
+  easing: "linear",
+  offset: "-=500"
+})
+  .add({
+  targets: ["#achievement-header","#achievement-title","#achievement-description"],
+  opacity: [0,1],
+  duration: 400,
+  offset: "-=400"
+})
+  .add({
+  targets: "#achievement-button",
+  opacity: 1,
+  bottom: "-75px",
+  easing: "easeOutCirc",
+  duration: 400,
+  offset: "-=200"
+})
+  .add({
+  targets: ".achievement-card-box",
+  scale: [0.8,1],
+  rotateZ: function(el, i) {
+    return ["0deg", Math.floor((cardCount/2))*-15 + (i*15)+"deg"];
+  },
+  boxShadow: ['0 0 0px rgba(128,128,255,0)','0 0 40px rgba(128,128,255,1)'],
+  elasticity: 100,
+  duration: 800,
+  complete: function () {
+    animationDone = true;
+    pulse();
+  }
+})
+function pulse() {
+  cardAnim = anime({
+    targets: ".achievement-card-box",
+    scale: [1,0.95],
+    rotateZ: function(el, i) {
+      return [Math.floor((cardCount/2))*-15 + (i*15)+"deg", Math.floor((cardCount/2))*-17 + (i*17)+"deg"];
+    },
+    boxShadow: ['0 0 40px rgba(128,128,255,1)','0 0 60px rgba(128,128,255,1)'],
+    easing: "easeInOutCubic",
+    duration: 5000,
+    loop: true,
+    direction: 'alternate'
+  })
+}
+
+function hoverCards() {
+  if (animationDone) {
+    cardAnim.pause();
+    cardAnim = anime.timeline();
+    cardAnim.add({
+      targets: ".achievement-card-box",
+      rotateZ: function(el, i) {
+      return Math.floor((cardCount/2))*-15 + (i*15)+"deg";
+    },
+      translateX: function(el, i) {
+        return Math.floor((cardCount/2))*-112 + (i*112)+"px";
+      },
+      scale: 1,
+      easing: "easeInOutSine",
+      duration: 400
+    });
+  }
+}
+function unhoverCards() {
+  if (animationDone) {
+    cardAnim.pause();
+    cardAnim = anime.timeline();
+    cardAnim.add({
+      targets: ".achievement-card-box",
+      rotateZ: function(el, i) {
+      return Math.floor((cardCount/2))*-15 + (i*15)+"deg";
+      },
+      translateX: function(el, i) {
+        return 0+"px";
+      },
+      scale: 1,
+      easing: "easeInOutSine",
+      duration: 500,
+      complete: function() {
+        pulse();
+      }
+    });
+  }
+}
+
+function close() {
+  cardAnim.pause();
+  cardAnim = anime({
+    targets: [".achievement-card-box", "#achievement-info"],
+    scale: 0,
+    rotateZ: 0,
+    translateX: 0,
+    opacity: 0,
+    easing: "easeInSine",
+    duration: 400,
+  });
+}
+
+$("#achievement-box").on('mouseenter', hoverCards);
+$("#achievement-box").on('mouseleave', unhoverCards);
+$("#achievement-button").on("click", close);
+</script>
+<style>
+html,
+body {
+  height: 100%;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-image: url("http://i.imgur.com/e5jvL54.jpg");
+  background-size: stretch;
+  overflow: hidden;
+}
+#achievement-box {
+  width: 100%;
+  height: 300px;
+  margin: 0 auto;
+}
+#achievement-card-container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-around;
+  perspective: 1000px;
+}
+.achievement-card-box {
+  width: 225px;
+  height: 279px;
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg);
+  transform: scale(0);
+}
+.a-card-back {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1aca3en2l_2277689.jpg");
+  transform: rotateY(180deg);
+}
+.a-card-image,
+.a-card-back {
+  width: 225px;
+  height: 279px;
+  background-size: contain;
+  backface-visibility: hidden;
+  position: absolute;
+}
+.a-card-title {
+  position: absolute;
+}
+.image-1 {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1a9tj7nq8_382831.jpg");
+}
+.image-2 {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1al7rvhg0_2408879.jpg");
+}
+.image-3 {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1asld2per_2667223.jpg");
+}
+.image-4 {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1a9tj7nq8_382831.jpg");
+}
+.image-5 {
+  background-image: url("https://d2t4fc8ff77neh.cloudfront.net/generatedImage/1al7rvhg0_2408879.jpg");
+}
+#achievement-coins,
+#achievement-exp {
+  position: absolute;
+  top: -100px;
+  height: 35px;
+  min-width: 100px;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  background: #6c3cca;
+  border: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(116,71,205,0.2);
+  border-radius: 60px;
+  color: #fff;
+}
+#achievement-coins {
+  transform: translateX(-150%);
+}
+#achievement-exp {
+  transform: translateX(50%);
+}
+#achievement-coins::after,
+#achievement-exp::after {
+  content: attr(title);
+  position: absolute;
+  top: -16px;
+  font-size: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background: #6c3cca;
+  border: 0;
+  border-radius: 60px;
+  padding: 4px 10px;
+}
+#achievement-button {
+  position: absolute;
+  bottom: -300px;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 50px;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: #6c3cca;
+  border: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(116,71,205,0.2);
+  border-radius: 60px;
+  color: #fff;
+}
+#achievement-info {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 0 50px 40px rgba(0,0,0,0.75);
+  background-color: rgba(0,0,0,0.75);
+  color: #fff;
+  position: fixed;
+  bottom: 100px;
+  transform: scaleY(0);
+}
+#achievement-title {
+  font-size: 2rem;
+  text-transform: uppercase;
+  opacity: 0;
+}
+#achievement-description {
+  font-size: 1.2rem;
+}
+#achievement-header,
+#achievement-description,
+#achievement-button {
+  opacity: 0;
+}
+</style>
+</head>
+
+<body>
+<div id="achievement-box">
+  <div id="achievement-card-container">
+    <div class="achievement-card-box">
+      <div class="a-card-back"></div>
+      <div class="a-card-image image-5"></div>
+    </div>
+    <div class="achievement-card-box">
+      <div class="a-card-back"></div>
+      <div class="a-card-image image-4"></div>
+    </div>
+    <div class="achievement-card-box">
+      <div class="a-card-back"></div>
+      <div class="a-card-image image-3"></div>
+    </div>
+    <div class="achievement-card-box">
+      <div class="a-card-back"></div>
+      <div class="a-card-image image-2"></div>
+    </div>
+    <div class="achievement-card-box">
+      <div class="a-card-back"></div>
+      <div class="a-card-image image-1"></div>
+    </div>
+  </div>
+</div>
+<div id="achievement-info">
+  <button id="achievement-coins" title="Coins" disabled>5000</button>
+  <button id="achievement-exp" title="EXP" disabled>2000</button>
+  <div id="achievement-header">Achievement Obtained</div>
+  <div id="achievement-title">Achievement Title</div>
+  <div id="achievement-description">Achievement Description</div>
+  <button id="achievement-button">OK</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<title>Web Page Design</title>
+<head>
+<style type="text/css">
+body {
+  font-family: 'Kalam', 'Noto Sans TC', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333333;
+}
+
+/* Main */
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+h2 {
+  font-size: 32px;
+  margin: 24px 0 8px;
+}
+
+h3 {
+  font-size: 21px;
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+section {
+  margin-bottom: 48px;
+}
+
+p {
+  color: #666666;
+}
+
+/* Pesonal Info */
+.avatar {
+  text-align: center;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  width: 200px;
+}
+.name {
+  text-align: center;
+  font-size: 32px;
+  margin: 20px 0;
+}
+.social-media {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.social-media-link {
+  color: #999999;
+  text-decoration: none;
+  margin: 0 5px;
+}
+.social-media-link:hover {
+  color: #BF1304;
+}
+.title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #c0c0c0;
+}
+
+/* Skill Section */
+.skills {
+  display: flex;
+  justify-content: space-between;
+}
+.skill {
+  width: 30%;
+}
+.skill-name {
+  border-top: 1px solid #999999;
+  padding-top: 16px;
+}
+
+/* Experience Section */
+hr {
+  border: 0px;
+  height: 1px;
+  background: #cccccc;
+  margin: 20px 0;
+}
+
+ul {
+  list-style-type: circle;
+  color: #666666;
+  padding-inline-start: 20px;
+}
+
+.company, .duration {
+  color: #666666;
+  font-size: 12px;
+  margin-right: 20px;
+}
+
+.fa-building, .fa-calendar-alt {
+  margin-right: 5px;
+}
+
+</style>
+</head>
+<body>
+<main>
+  <section class="personal-info">
+    <div class="avatar">
+      <img class="avatar-img" src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/9442/FEwebinar_IronMan.jpeg" alt="">
+    </div>
+    <h1 class="name">
+      校長 : 唐傳義
+    </h1>
+    <div class="social-media">
+      <a class="social-media-link" href="https://www.facebook.com/ironman/" target="_blank">
+        <i class="fab fa-facebook fa-lg"></i>
+      </a>
+      <a class="social-media-link" href="https://www.instagram.com/ironman.official/?hl=zh-tw" target="_blank">
+        <i class="fab fa-instagram-square fa-lg"></i>
+      </a>
+      <a class="social-media-link" href="mailto:ts@starkindustries.com" target="_blank">
+        <i class="fas fa-envelope fa-lg"></i>
+      </a>
+    </div>
+
+    <div class="title">
+      唐傳義校長對校友們的祝福
+    </div>
+    <h2>親愛的校友，您好：</h2>
+    <p>學期伊始的涼秋九月，我前後拜訪晤談了兩位較資深的校友，言談中很自然的談到當年在靜宜的大學生活，</p>
+  </section>
+
+  <section class="skill-section">
+    <h2>專業技能</h2>
+    <div class="skills">
+      <div class="skill">
+        <h3 class="skill-name">Innovative thinker and Inventor</h3>
+        <p class="slill-description">
+          Identifying an issue, using available resources to develop a solution and testing the idea.
+        </p>
+      </div>
+      <div class="skill">
+        <h3 class="skill-name">Analytical</h3>
+        <p class="slill-description">
+          Observing and researching a problem or topic to develop more complex ideas about it.
+        </p>
+      </div>
+      <div class="skill">
+        <h3 class="skill-name">Adept with new technology</h3>
+        <p class="slill-description">
+          Acquiring the latest technical skills with high willingness and passion and applying it into daily work fast.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="experience-section">
+    <h2 class="job-experience">工作經歷</h2>
+    <div class="experience">
+      <div class="experience-item">
+        <h3 class="job-title">Founder</h3>
+        <span class="company"><i class="far fa-building"></i>Maria Stark Foundation</span>
+        <span class="duration"><i class="far fa-calendar-alt"></i>不可考</span>
+        <ul>
+          <li>Promoting affordable housing, community centers and other philanthropic gestures</li>
+          <li>Funding the repair firm Damage Control and the superhero team the Avengers</li> 
+        </ul>
+      </div>
+      <hr>
+      <div class="experience-item">
+        <h3 class="job-title">CEO</h3>
+        <span class="company"><i class="far fa-building"></i>Stark Enterprises</span>
+        <span class="duration"><i class="far fa-calendar-alt"></i>不可考</span>
+        <ul>
+          <li>Delegating everyday business running to Pepper Potts</li>
+          <li>Features in Forbes Magazine</li>
+          <li>Ranked as one of the ten most intelligent people by Business Week</li>         
+        </ul>
+      </div>
+      <hr>
+      <div class="experience-item">
+        <h3 class="job-title">Secretary of Defence</h3>
+        <span class="company"><i class="far fa-building"></i>US Government</span>
+        <span class="duration"><i class="far fa-calendar-alt"></i>不可考</span>
+        <ul>
+          <li>own area 51</li>
+          <li>Temporary joined Guardians of the Galaxy</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

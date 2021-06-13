@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MY WEBSITE</title>
+<style type="text/css">
+
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+}
+
+*{
+	box-sizing: border-box;
+}
+
+h1{
+	text-align: center;
+	font-size: 50px;
+	color: rgba(0, 0, 0, 0.7);
+}
+
+.cBackground{
+	height: 100%;
+/*    background: -webkit-linear-gradient(to bottom right, #737DFE, #FFCAC9);
+    background: linear-gradient(to bottom right, #737DFE, #FFCAC9);*/
+	background-image: url("https://i.pinimg.com/originals/d7/d8/db/d7d8dbf3811c797e5d2cc364743ae3a7.gif");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+	filter: blur(10px);
+    -webkit-filter: blur(10px);
+}
+
+.cSection{
+  border: 3px solid rgba(241,241,241,0.50);
+  border-radius: 50px;
+  background-color: rgba(255,255,255,0.5);
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding-top: 1px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+}
+
+.cDiv{
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	background-color: red;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	
+	animation-name: example;
+	animation-duration: 5s;
+	animation-delay: 0;
+	animation-direction: alternate-reverse;
+	animation-iteration-count: infinite;
+}
+
+@keyframes example {
+	0%{background-color:orange; left: 0%; top: 0px; border-radius: 50px;}
+	20%{background-color: limegreen; left: 25%; top: 0px; border-radius: 25px;}
+	40%{background-color: #5100FF; left: -25%; top: 0px; border-radius: 0px;}
+	60%{background-color: aqua; left: 50%; top: 0px; border-radius: 25px;}
+	80%{background-color: salmon; left: -50%; top: 0px; border-radius: 50px;}
+	100%{background-color: violet; left: 0%; top: 0px; border-radius: 25px;}
+}
+
+</style>
+</head>
+
+<body>
+<div class="cBackground"></div>
+<section class="cSection">
+	<h1>MY WEBSITE</h1>
+	<div class="cDiv">
+	
+	</div>
+</section>
+</body>
+</html>

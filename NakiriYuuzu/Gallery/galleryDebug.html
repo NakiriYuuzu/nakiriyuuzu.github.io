@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>gallery</title>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.prev,
+.next {
+	position: fixed;
+	top: 0;
+	width: 15%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	z-index: 999;
+	color: rgba(0,0,0,.5);
+	font-size: 8rem;
+	font-family: monospace;
+	transition: all .2s;
+}
+
+.prev:hover,
+.next:hover {
+	color: rgba(121,202,255,1.00);
+}
+
+.prev {left: -25%;}
+.next {right: -25%;}
+
+.active .prev {left: 0;}
+.active .next {right: 0;}
+
+.container1 {
+	margin: 10vh auto;
+	max-width: 80%;
+	display: grid;
+	grid-gap: 5px;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-auto-rows: 250px;
+	grid-auto-flow: dense;
+}
+
+.div {
+	box-shadow: 2.5px 5px 10px rgba(0, 0, 0, 0.8);
+	margin: 15px;
+	text-align: center;
+	padding: 1rem 0;
+	color: white;
+	font-size: 3rem;
+	text-transform: uppercase;
+	background: rgba(0,0,0,0.2);
+	overflow: hidden;
+	padding: 0;
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+}
+
+.div img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center;
+	transition: all .5s;
+}
+
+.div .show::before {
+	display: flex;
+	position: fixed;
+	z-index: 555;
+	width: 100vw;
+	height: 100vh;
+	top: 0; left: 0;
+	background: rgba(0,0,0,.6);
+}
+
+.div.show img {
+	position: fixed;
+	top: 0; left: 0;
+	margin: 30px;
+	align-self: center;
+	object-fit: contain;
+	z-index: 666;
+	width: calc(100% - 60px);
+	height: calc(100% - 60px);
+	filter: drop-shadow(1px 3px 15px black);
+	cursor: url(close-button.png), grab;
+}
+
+.div:not(.show):hover img {
+	cursor: pointer;
+	transform: scale(1.3);
+}
+
+
+.horizontal {
+	grid-column: span 2;
+}
+
+.vertical {
+	grid-row: span 2;
+}
+
+.big {
+	grid-column: span 2;
+	grid-row: span 2;
+}
+
+.active .div:not(.show) img {
+	filter: blur(3px);
+}
+
+@media screen and (max-width: 880px) {
+	.container1 {
+		margin: 10vh auto;
+		max-width: 80%;
+		display: block;
+		grid-gap: 5px;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		grid-auto-rows: 250px;
+		grid-auto-flow: dense;
+}
+	
+	.div.show img {
+	position: fixed;
+	top: 0; left: 0;
+	margin: 30px;
+	align-self: center;
+	object-fit: contain;
+	z-index: 666;
+	width: calc(100% - 60px);
+	height: calc(100% - 60px);
+	filter: drop-shadow(1px 3px 15px black);
+	cursor: url(close-button.png), grab; /* custom cursor to signal close on click */
+}
+}
+</style>
+</head>
+<body>
+<h1 align="center">Yuuzu Gallery</h1>
+  <a href="#" class="prev">&lt;</a>
+	<a href="#" class="next">&gt;</a>
+	<main class="container1">
+		<div class="div vertical"><img src="Image/88798177_p0.jpg" alt=""></div>
+		<div class="div horizontal"><img src="Image/89441208_p0.png" alt=""></div>
+		<div class="div vertical"><img src="Image/89190216_p0.jpg" alt=""></div>
+		<div class="div horizontal"><img src="Image/89478080_p1.jpg" alt=""></div>
+		<div class="div vertical"><img src="Image/89316212_p0.png" alt=""></div>
+		<div class="div big"><img src="Image/E0E3H0AVEAAPKaS.jpg" alt=""></div>
+		<div class="div vertical"><img src="Image/89428989_p0.jpg" alt=""></div>
+		<div class="div big"><img src="Image/EzlNb-8VoAMleBb.jpg" alt=""></div>
+		<div class="div big"><img src="Image/89454654_p0.jpg" alt=""></div>
+		<div class="div vertical"><img src="Image/E0IRzM7UUAIshEK.jpg" alt=""></div>
+		<div class="div big"><img src="Image/EzziC9qVcAcSxUH.jpg" alt=""></div>
+<!--
+		<div class="big"><img src="https://picsum.photos/id/12/800" alt=""></div>
+		<div><img src="https://picsum.photos/id/13/800" alt=""></div>
+		<div class="horizontal"><img src="https://picsum.photos/id/14/800" alt=""></div>
+		<div><img src="https://picsum.photos/id/15/800" alt=""></div>
+		<div class="big"><img src="https://picsum.photos/id/16/800" alt=""></div>
+		<div><img src="https://picsum.photos/id/17/800" alt=""></div>
+		<div class="vertical"><img src="https://picsum.photos/id/18/800" alt=""></div>
+-->
+	</main>
+<script type="text/javascript">
+const divs = document.querySelectorAll('.div');
+const body = document.body;
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+
+checkPrev = () => document.querySelector('.div:first-child').classList.contains('show') ? prev.style.display = 'none' : prev.style.display = 'flex';
+
+checkNext = () => document.querySelector('.div:last-child').classList.contains('show') ? next.style.display = 'none' : next.style.display = 'flex';
+			
+Array.prototype.slice.call(divs).forEach(function (el) {
+			el.addEventListener('click', function () {
+				this.classList.toggle('show');
+				body.classList.toggle('active');
+				checkNext();
+				checkPrev();
+			});
+});
+
+prev.addEventListener('click', function() {
+			const show = document.querySelector('.show');
+			const event = document.createEvent('HTMLEvents');
+			event.initEvent('click', true, false);
+
+			show.previousElementSibling.dispatchEvent(event);
+			show.classList.remove('show');
+			body.classList.toggle('active');
+			checkNext();
+});
+
+next.addEventListener('click', function() {
+			const show = document.querySelector('.show');
+			const event = document.createEvent('HTMLEvents');
+			event.initEvent('click', true, false);
+
+			show.nextElementSibling.dispatchEvent(event);
+			show.classList.remove('show');
+			body.classList.toggle('active');
+			checkPrev();
+});
+</script>
+</body>
+</html>

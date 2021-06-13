@@ -1,0 +1,102 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+[class*="fontawesome-"]:before {
+  font-family: "FontAwesome", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  &:before,
+  &:after {
+    box-sizing: border-box;
+  }
+}
+
+body {
+  background: #222;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: #fff;
+}
+
+.container {
+  max-width: 60em;
+  min-width: 45em;
+  margin: 0 auto;
+  padding: 0 2em;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  margin: 0 auto;
+  top: 0;
+  z-index: 3;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    float: right;
+  }
+  li {
+    display: inline-block;
+    padding: 2em;
+    text-align: center;
+    transition: all 0.2s;
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+    &:hover {
+      color: #ddd;
+    }
+  }
+}
+
+#icon {
+  display: inline-block;
+  padding-top: 0.7em;
+  font-size: 2em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#nav-bg {
+  background: #222;
+  position: fixed;
+  height: 5em;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+header {
+  position: relative;
+  background-color: #fd7777;
+  padding: 10em 0 8em;
+  z-index: 2;
+  h1 {
+    font-size: 4em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+#about {
+  background: #e7e3da;
+  height: 70em;
+  padding: 5em 0;
+  p {
+    line-height: 2em;
+    font-size: 1.4em;
+    margin: 0;
+    color: #222;
+  }
+}

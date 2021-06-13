@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Android Robot</title>
+
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+* {
+  	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100vh; /*same as 100%*/
+  	margin: 0;
+}
+
+body {
+	font-family: 'Ubuntu Mono', monospace;
+	background-color: gray;
+}
+
+h1 {
+	font-size: 50px;
+	color:  #a4c639;
+}
+
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#drawing {
+	width: 250px;
+	height: 200px;
+	border: solid 2px #a4c639;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="flex">
+<h1>Android Robot By Yuuzu</h1>
+</div>
+
+<canvas id="drawing">
+<h1>hello World</h1>
+</canvas>
+
+<script language="javascript" type="text/javascript">
+var myCanvas = document.getElementById("drawing");
+var d = myCanvas.getContext("2d");
+
+//text
+d.beginPath();
+d.font = "20px";
+d.fillStyle = '#ffffff';
+d.fillText("Yuuzu", 65, 105);
+d.closePath();
+
+//ear left
+d.beginPath();
+d.moveTo(145, 35);
+d.lineTo(125, 13);
+d.lineWidth = 4;
+d.strokeStyle = '#a4c639';
+d.stroke();
+d.closePath();
+
+//ear right
+d.beginPath();
+d.moveTo(165, 35);
+d.lineTo(185, 13);
+d.lineWidth = 4;
+d.strokeStyle = '#a4c639';
+d.stroke();
+d.closePath();
+
+//head
+d.beginPath();
+d.moveTo(100, 45);
+d.bezierCurveTo(100, 20, 155, 20, 155, 20);
+d.bezierCurveTo(155, 20, 210, 20, 210, 45);
+d.lineTo(100, 45);
+d.fillText = "hello";
+d.fillStyle = '#a4c639';
+d.fill();
+d.closePath();
+
+//eye left
+d.beginPath();
+d.arc(135, 32, 2, 0, 2 * Math.PI);
+d.fillStyle = 'white';
+d.fill();
+d.closePath();
+
+//eye right
+d.beginPath();
+d.arc(175, 32, 2, 0, 2 * Math.PI);
+d.fillStyle = 'white';
+d.fill();
+d.closePath();
+
+
+//body
+d.beginPath();
+d.moveTo(100, 50);
+d.lineTo(100, 100);
+d.bezierCurveTo(100, 110, 110, 110, 125, 110);
+d.lineTo(125, 120);
+d.bezierCurveTo(125, 130, 145, 130, 145, 120);
+d.lineTo(145, 110);
+d.lineTo(165, 110);
+d.lineTo(165, 120);
+d.bezierCurveTo(165, 130, 185, 130, 185, 120);
+d.lineTo(185, 110);
+d.lineTo(200, 110);
+d.bezierCurveTo(200, 110, 210, 110, 210, 100);
+d.lineTo(210, 50);
+d.lineTo(100, 50);
+d.fillStyle = '#a4c639';
+d.fill();
+d.closePath();
+
+//left hand
+d.beginPath();
+d.rect(70, 57, 20, 35);
+d.arc(80, 57, 10, 0, 2 * Math.PI);
+d.arc(80, 90, 10, 0, 2 * Math.PI);
+d.fillStyle = '#a4c639';
+d.fill();
+d.closePath();
+
+//right hand
+d.beginPath();
+d.rect(220, 57, 20, 35);
+d.arc(230, 57, 10, 0, 2 * Math.PI);
+d.arc(230, 90, 10, 0, 2 * Math.PI);
+d.fillStyle = '#a4c639';
+d.fill();
+d.closePath();
+
+</script>
+</body>
+</html>

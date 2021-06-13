@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Pixelizer_CopyRight</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.css'><link rel="stylesheet" href="./style.css">
+<style>
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700");
+canvas {
+  margin-left: 400px;
+  display: none;
+}
+
+body .scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.keyframes {
+  width: calc(100% - 280px);
+  position: absolute;
+  bottom: 0;
+  left: 280px;
+  color: #728995;
+  height: 60px;
+  padding: 31px 20px 15px 6px;
+  background: #282938;
+}
+.keyframes canvas {
+  position: absolute;
+  display: block;
+  margin: 0;
+  left: 0;
+  background: wheat;
+}
+.keyframes_control {
+  position: absolute;
+  top: -39px;
+  width: calc(100% - 45px);
+  background: #20212d;
+  left: 0;
+  padding: 10px;
+}
+.keyframes_control .controls {
+  float: right;
+}
+.keyframes_control .controls input, .keyframes_control .controls h4 {
+  float: left;
+  clear: none;
+}
+.keyframes_control .controls input {
+  float: left;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  text-align: center;
+  color: #bea5dd;
+  width: 50px;
+  box-sizing: border-box;
+  font-size: 9px;
+}
+.keyframes_control .controls input[type=checkbox] {
+  float: right;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  position: relative;
+  margin-left: -6px;
+  top: 3px;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  border-radius: 4px;
+  text-align: center;
+  color: #bea5dd;
+  box-sizing: border-box;
+  font-size: 9px;
+  cursor: pointer;
+}
+.keyframes_control .controls input[type=checkbox]:checked::after {
+  content: "";
+  display: block;
+  font-size: 7px;
+  font-family: "fontawesome";
+  color: #787a8a;
+  position: relative;
+  top: 1px;
+  left: 0px;
+}
+.keyframes_control .controls h4 {
+  margin-left: 30px;
+}
+.keyframes_control .controls div {
+  float: left;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 12px;
+}
+.keyframes_control .controls div:hover {
+  color: #81f0ef;
+}
+.keyframes_control .controls div i {
+  position: relative;
+  top: 4px;
+}
+.keyframes_control h4 {
+  margin: 0;
+  text-transform: uppercase;
+  color: #81f0ef;
+  margin: 4px 14px 0;
+  font-weight: 600;
+  clear: both;
+  float: left;
+  position: relative;
+  top: 2px;
+  font-size: 9px;
+}
+.keyframes .frame {
+  height: 47px;
+  background: #2f303e;
+  cursor: pointer;
+  float: left;
+  border-radius: 4px;
+  width: 70px;
+  border: 1px solid #555877;
+  margin: 4px -10px 4px 19px;
+  position: relative;
+  opacity: 0.6;
+}
+.keyframes .frame canvas {
+  background: #2f303e;
+  height: 100%;
+  border-radius: 4px;
+  width: 100%;
+}
+.keyframes .frame img {
+  width: 100%;
+}
+.keyframes .frame.activeF {
+  border: 1px solid #81f0ef;
+  opacity: 1;
+}
+.keyframes .frame.activeF .frameTitle {
+  color: white;
+}
+.keyframes .frame .frameTitle {
+  position: absolute;
+  font-weight: 400;
+  top: -16px;
+  left: -1px;
+  z-index: 1;
+  color: #8789a9;
+  font-size: 8px;
+}
+.keyframes .frame:hover .fa-trash,
+.keyframes .frame:hover .fa-copy {
+  opacity: 1;
+}
+.keyframes .fa-trash,
+.keyframes .fa-copy {
+  position: absolute;
+  bottom: 5px;
+  font-size: 11px;
+  z-index: 1;
+  right: 5px;
+  opacity: 0;
+  transition: all 0.2s;
+}
+.keyframes .fa-trash:hover,
+.keyframes .fa-copy:hover {
+  color: #81f0ef;
+}
+.keyframes .fa-copy {
+  right: 19px;
+}
+.keyframes .playhead {
+  width: 1px;
+  height: 102px;
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 25px;
+  z-index: 11;
+}
+.keyframes .frames {
+  width: calc(100% - 140px);
+  float: left;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 110px;
+  position: relative;
+  top: -20px;
+  padding-top: 19px;
+}
+.keyframes .frames .o {
+  position: absolute;
+  z-index: 1033;
+  height: 200px;
+  top: -10px;
+  width: 100px;
+  right: 0;
+  background: -webkit-linear-gradient(left, rgba(125, 185, 232, 0) 0%, #282938 100%);
+}
+.keyframes .frames .wrap {
+  width: 100000px;
+}
+.keyframes .add {
+  height: 67px;
+  cursor: pointer;
+  float: right;
+  border-radius: 4px;
+  width: 70px;
+  text-align: center;
+  color: white;
+  background: #363851;
+  margin: -12px 23px 4px 19px;
+  line-height: 67px;
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+.keyframes .add:hover {
+  opacity: 1;
+}
+.keyframes .play,
+.keyframes .stop {
+  float: right;
+}
+
+.pcount {
+  position: absolute;
+  right: -180px;
+  font-size: 10px;
+}
+.pcount p {
+  width: 150px;
+  margin: 4px 0;
+  opacity: 0.3;
+  font-size: 9px;
+  line-height: 13px;
+}
+.pcount span {
+  opacity: 0.3;
+}
+.pcount span.c {
+  opacity: 1;
+}
+.pcount h5 {
+  margin: 0 0 7px 0;
+  font-size: 10px;
+  color: #81f0ef;
+}
+
+.zoom {
+  transform: scale(1);
+  position: absolute;
+  width: calc(100% - 280px);
+  height: 100vh;
+  top: 0;
+  right: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+* {
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */
+}
+
+body {
+  background: #2f303e;
+  color: white;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+}
+body .pan {
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+body .scene {
+  height: 200px;
+  transition: transform 1s, top 0.2s, left 0.2s;
+  border: 1px solid #d0baef;
+}
+body .scene .symx {
+  height: 120%;
+  width: 2px;
+  background: red;
+  position: absolute;
+  left: 50%;
+  transform: translateY(-10%) translateX(-1px);
+  z-index: 100;
+}
+body .scene .symy {
+  height: 2px;
+  width: 120%;
+  background: red;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-1px) translateX(-10%);
+  z-index: 100;
+}
+@-webkit-keyframes spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+body .scene.Spin {
+  -webkit-animation: spin 3s linear infinite;
+          animation: spin 3s linear infinite;
+}
+@-webkit-keyframes bounce {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-60%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-60%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+body .scene.Bounce {
+  -webkit-animation: bounce 1s linear infinite;
+          animation: bounce 1s linear infinite;
+}
+@-webkit-keyframes wobble {
+  0% {
+    transform: translateY(-50%) translateX(-10px);
+  }
+  50% {
+    transform: translateY(-50%) translateX(10px);
+  }
+  100% {
+    transform: translateY(-50%) translateX(-10px);
+  }
+}
+@keyframes wobble {
+  0% {
+    transform: translateY(-50%) translateX(-10px);
+  }
+  50% {
+    transform: translateY(-50%) translateX(10px);
+  }
+  100% {
+    transform: translateY(-50%) translateX(-10px);
+  }
+}
+body .scene.Wobble {
+  -webkit-animation: wobble 1s linear infinite;
+          animation: wobble 1s linear infinite;
+}
+body .scene.reflect {
+  -webkit-box-reflect: below 10px -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 76%, white 107%);
+}
+body .scene .row, body .scene .col {
+  position: absolute;
+  top: 0;
+}
+body .scene_pixelrow {
+  box-shadow: 0px 1px rgba(255, 255, 255, 0.2) inset, 1px 0px rgba(255, 255, 255, 0.2) inset;
+  pointer-events: none;
+}
+body .scene_pixelcolumn {
+  float: left;
+  box-shadow: 0px 1px rgba(255, 255, 255, 0.2) inset, 1px 0px rgba(255, 255, 255, 0.2) inset;
+  z-index: 10;
+}
+body .scene_pixel {
+  position: absolute;
+  float: left;
+}
+body .picker {
+  transform: translateY(0);
+  left: 340px;
+  top: 100px;
+  position: relative;
+  background: #363851;
+  padding: 20px;
+  border-radius: 4px;
+  width: 182px;
+  height: 235px;
+}
+body .picker .pick:hover .tipt {
+  opacity: 1;
+  top: 220px;
+}
+body .picker .tipt {
+  padding: 6px 10px;
+  background: #ae88f0;
+  transition: all 0.2s;
+  opacity: 0;
+  top: 230px;
+  pointer-events: none;
+  width: 80px;
+  font-weight: 600;
+  font-size: 10px;
+  left: 140px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+  position: absolute;
+  text-align: center;
+}
+body .picker .col {
+  border: 2px solid white;
+  width: 20px;
+  height: 14px;
+  background: White;
+  border-radius: 4px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 10px;
+  position: relative;
+  top: -3px;
+}
+body .picker .output {
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 10px;
+  display: none;
+}
+body .picker h2 {
+  font-size: 11px;
+  margin-bottom: -6px;
+  margin-top: 30px;
+  float: left;
+  text-transform: uppercase;
+  color: #81f0ef;
+  margin: 0;
+  font-weight: 600;
+  clear: both;
+  position: absolute;
+  top: -30px;
+  left: 0px;
+}
+body .picker h2 i {
+  margin-right: 6px;
+}
+body .extras {
+  position: absolute;
+  right: 0;
+  height: 100% vh;
+  top: 150px;
+}
+body .overlay {
+  background: #2f303e;
+  height: 116px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 280px;
+}
+body .name {
+  width: 120px !important;
+  float: left;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  margin-left: 10px;
+  border-radius: 4px;
+  padding: 12px 12px;
+  text-align: left;
+  position: relative;
+  color: #bea5dd;
+  box-sizing: border-box;
+  font-size: 9px;
+}
+body .tools {
+  position: relative;
+  left: 409px;
+  padding: 20px;
+  margin-top: 28px;
+  width: calc(100% - 440px);
+}
+body .tools .tipt {
+  padding: 6px 10px;
+  background: #ae88f0;
+  transition: all 0.2s;
+  opacity: 0;
+  top: 32px;
+  pointer-events: none;
+  width: 80px;
+  font-weight: 600;
+  font-size: 10px;
+  left: -40px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+  position: absolute;
+  text-align: center;
+}
+body .tools div {
+  float: left;
+}
+body .tools div:hover .tipt {
+  opacity: 1;
+  top: 30px;
+}
+body .tools_zoom {
+  width: 230px;
+  text-transform: uppercase;
+  font-size: 11px;
+  float: left;
+  position: relative;
+  margin-right: 20px;
+}
+body .tools_zoom .tip {
+  padding: 6px 10px;
+  background: #ae88f0;
+  transition: opacity 0.2s;
+  opacity: 0;
+  top: 30px;
+  font-weight: 600;
+  font-size: 10px;
+  left: -14px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  position: absolute;
+  text-align: center;
+}
+body .tools_zoom h5 {
+  position: absolute;
+  font-weight: 700;
+  top: -11px;
+  left: -90px;
+}
+body .tools_grid, body .tools_pan, body .tools_save, body .tools_center, body .tools_symx, body .tools_symy {
+  color: #81f0ef;
+  transition: all 0.2s;
+  position: relative;
+  top: -1px;
+  font-size: 18px;
+  margin: 0px 20px;
+  cursor: pointer;
+}
+body .tools_grid:hover, body .tools_pan:hover, body .tools_save:hover, body .tools_center:hover, body .tools_symx:hover, body .tools_symy:hover {
+  color: #81f0ef !important;
+}
+body .tools_grid.inactive, body .tools_pan.inactive, body .tools_save.inactive, body .tools_center.inactive, body .tools_symx.inactive, body .tools_symy.inactive {
+  color: #464753;
+}
+body .tools input[type=submit], body .tools .tools_export_png {
+  padding: 16px 26px;
+  border-radius: 3px;
+  margin-top: -14px;
+  float: right !important;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+body .tools input[type=submit] i, body .tools .tools_export_png i {
+  transition: all 0.2s;
+  margin-right: 10px;
+}
+body .tools input[type=submit]:hover i, body .tools .tools_export_png:hover i {
+  margin-right: 20px;
+}
+body .tools input[type=submit] {
+  background: #ae88f0;
+  color: white;
+  border: none;
+  outline: 0;
+  font-family: "Montserrat", sans-serif;
+}
+body .tools input[type=submit]:hover {
+  background: #8f5bea;
+}
+body .tools_export_png {
+  background: #81f0ef;
+  color: #41a09f;
+}
+body .tools_export_png:hover {
+  background: #53ebe9;
+}
+body .tools_export_code {
+  float: right !important;
+}
+body .menu {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: #363851;
+  width: 200px;
+  padding: 40px;
+}
+body .menu_options__psize {
+  position: relative;
+}
+body .menu button {
+  width: 41px;
+  float: left;
+  margin-right: 9px;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 6px;
+  padding: 12px 10px;
+  text-align: center;
+  color: #bea5dd;
+  box-sizing: border-box;
+  font-size: 9px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+body .menu button.active {
+  background: #81f0ef;
+  border: 1px solid #81f0ef;
+  color: #363851;
+}
+body .menu button:hover {
+  background: #81f0ef;
+  border: 1px solid #81f0ef;
+  color: #363851;
+}
+body .menu_logo {
+  border-bottom: 1px solid #555877;
+  padding-bottom: 30px;
+  margin-bottom: 10px;
+}
+body .menu img {
+  width: 165px;
+}
+body .menu h2,
+body .menu h3,
+body .menu h4 {
+  text-transform: uppercase;
+  color: #81f0ef;
+  margin: 0;
+  font-weight: 600;
+  clear: both;
+}
+body .menu h2.abs,
+body .menu h3.abs,
+body .menu h4.abs {
+  position: absolute;
+  top: 104px;
+  left: 73px;
+}
+body .menu h2 {
+  font-size: 11px;
+  margin-bottom: -6px;
+  margin-top: 30px;
+  float: left;
+}
+body .menu h3 {
+  font-size: 9px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+body .menu h4 {
+  font-size: 9px;
+  margin-top: 10px;
+  color: #8789a9;
+  margin-bottom: 8px;
+  float: left;
+}
+body .menu h4 i {
+  float: left;
+  position: relative;
+  top: 1px;
+  margin-right: 5px;
+}
+body .menu p {
+  width: 100%;
+  font-size: 9px;
+  float: left;
+  clear: both;
+  line-height: 15px;
+  color: #8789a9;
+  border-bottom: 1px solid #555877;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+}
+body .menu input {
+  width: 63px;
+  float: left;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 6px;
+  padding: 12px 10px;
+  text-align: center;
+  color: #bea5dd;
+  box-sizing: border-box;
+  font-size: 9px;
+}
+body .menu input.inactive {
+  color: #6e6489;
+}
+body .menu input[type=checkbox] {
+  float: right;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  position: relative;
+  top: 3px;
+  cursor: pointer;
+}
+body .menu input[type=checkbox]:checked::after {
+  content: "";
+  display: block;
+  font-size: 7px;
+  font-family: "fontawesome";
+  color: #787a8a;
+  position: relative;
+  top: 1px;
+  left: 0px;
+}
+body .menu select {
+  clear: both;
+  float: left;
+  width: 100%;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  float: left;
+  background: transparent;
+  border: 1px solid #555877;
+  outline: none;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 6px;
+  text-transform: uppercase;
+  padding: 12px 10px;
+  text-align: center;
+  color: #fff;
+  box-sizing: border-box;
+  font-size: 9px;
+}
+body .menu label {
+  cursor: pointer;
+}
+body .menu label.active h4 {
+  color: white;
+}
+body .menu_animations__animation {
+  position: relative;
+  clear: both;
+}
+body .menu_animations__animation::after {
+  content: "";
+  display: none;
+  font-size: 8px;
+  font-family: "fontawesome";
+  color: #787a8a;
+  position: absolute;
+  top: 48px;
+  right: 14px;
+}
+body .menu .x {
+  font-size: 8px;
+  display: block;
+  float: left;
+  position: relative;
+  top: 18px;
+  margin: 0 10px;
+  color: #bea5dd;
+}
+body .menu .lock {
+  width: 26px;
+  float: left;
+  height: 26px;
+  background: #2f303e;
+  border-radius: 4px;
+  position: relative;
+  top: 10px;
+  text-align: center;
+  line-height: 27px;
+  font-size: 12px;
+  color: #b6a5d3;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.sp-button-container.sp-cf {
+  display: none;
+}
+
+.fa-crosshairs {
+  position: absolute;
+  right: 30px;
+  bottom: 24px;
+  color: #555877;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.fa-crosshairs.active, .fa-crosshairs:hover {
+  color: #81f0ef;
+}
+
+.pickOverlay {
+  display: none;
+  border: 2px solid white;
+  width: 40px;
+  position: absolute;
+  height: 20px;
+  border-radius: 4px;
+  background: white;
+}
+
+.sp-container {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.sp-picker-container {
+  border: none;
+  margin-top: 14px;
+}
+
+.sp-dd {
+  left: 10px;
+  position: relative;
+  font-size: 0px;
+}
+.sp-dd::after {
+  content: "";
+  display: block;
+  font-size: 8px;
+  font-family: "fontawesome";
+  color: #787a8a;
+  position: relative;
+  top: -17px;
+  left: 10px;
+}
+
+.sp-replacer {
+  background: none;
+  width: 50%;
+  float: left;
+  background: transparent;
+  border: 1px solid #555877 !important;
+  outline: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 6px;
+  padding: 7px 7px;
+  text-align: center;
+  color: #bea5dd;
+  box-sizing: border-box;
+  font-size: 9px;
+}
+
+.coutput {
+  float: right;
+  font-size: 10px;
+  font-weight: 600;
+  position: relative;
+  top: 15px;
+}
+
+.sp-color, .sp-val, .sp-sat {
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.sp-preview {
+  border-radius: 3px;
+  width: 44px;
+  overflow: hidden;
+  height: 20px;
+  border: none;
+}
+
+.sp-hue {
+  border: none;
+  width: 3px;
+  border-radius: 10px;
+  margin-left: 16px;
+}
+
+.sp-dragger {
+  transform: translateY(3px) translateX(3px);
+  background: none !important;
+}
+
+.sp-slider,
+.sp-dragger {
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  height: 11px;
+  width: 11px;
+  left: -6px;
+  top: 4px;
+  border-radius: 16px;
+  border: 2px solid #fff;
+  background: #363851;
+  opacity: 1;
+}
+
+.sp-flat {
+  margin-top: -13px;
+}
+
+[type=range] {
+  -webkit-appearance: none;
+  margin: 7px 0;
+  width: 100%;
+}
+[type=range]:focus {
+  outline: 0;
+}
+[type=range]:focus::-webkit-slider-runnable-track {
+  background: #525361;
+}
+[type=range]:focus::-ms-fill-lower {
+  background: #464753;
+}
+[type=range]:focus::-ms-fill-upper {
+  background: #525361;
+}
+[type=range]::-webkit-slider-runnable-track {
+  cursor: pointer;
+  height: 3px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-shadow: 0px 0px 0px #464753, 0 0 0px #525361;
+  background: #464753;
+  border: 0px solid red;
+  border-radius: 0px;
+}
+[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0 0 0px rgba(13, 13, 13, 0.2);
+  background: #2f303e;
+  border: 2px solid #81f0ef;
+  border-radius: 7px;
+  cursor: pointer;
+  height: 14px;
+  width: 14px;
+  -webkit-appearance: none;
+  margin-top: -5.5px;
+}
+[type=range]::-moz-range-track {
+  cursor: pointer;
+  height: 3px;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-shadow: 0px 0px 0px #464753, 0 0 0px #525361;
+  background: #464753;
+  border: 0px solid red;
+  border-radius: 0px;
+}
+[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0 0 0px rgba(13, 13, 13, 0.2);
+  background: #2f303e;
+  border: 2px solid #81f0ef;
+  border-radius: 7px;
+  cursor: pointer;
+  height: 14px;
+  width: 14px;
+}
+[type=range]::-ms-track {
+  cursor: pointer;
+  height: 3px;
+  -ms-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  background: transparent;
+  border-color: transparent;
+  border-width: 7px 0;
+  color: transparent;
+}
+[type=range]::-ms-fill-lower {
+  box-shadow: 0px 0px 0px #464753, 0 0 0px #525361;
+  background: #3a3b45;
+  border: 0px solid red;
+  border-radius: 0px;
+}
+[type=range]::-ms-fill-upper {
+  box-shadow: 0px 0px 0px #464753, 0 0 0px #525361;
+  background: #464753;
+  border: 0px solid red;
+  border-radius: 0px;
+}
+[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2), 0 0 0px rgba(13, 13, 13, 0.2);
+  background: #2f303e;
+  border: 2px solid #81f0ef;
+  border-radius: 7px;
+  cursor: pointer;
+  height: 14px;
+  width: 14px;
+  margin-top: 0;
+}
+
+select {
+  display: none;
+}
+
+.select2-container--default .select2-selection--single {
+  background-color: #363851;
+  border: 1px solid #555877;
+  border-radius: 4px;
+  outline: 0;
+  height: 38px;
+}
+
+.select2-results__option[aria-selected] {
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  border: 1px solid #aaa;
+  display: none;
+}
+
+.select2-search--dropdown {
+  display: none;
+  padding: 4px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #ae88f0;
+  color: white;
+  /* font-size: 10px; */
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background-color: #ae88f0;
+}
+
+.sp-input {
+  font-size: 12px !important;
+  border: 1px inset;
+  padding: 4px 5px;
+  margin: 10px 0 4px 0;
+  width: 163px;
+  background: transparent;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #555877 !important;
+  color: #fff;
+}
+
+.select2-dropdown {
+  background-color: #363851;
+  border: 1px solid #555877 !important;
+  border-radius: 4px !important;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: -8px;
+  left: -100000px;
+  width: 100%;
+  z-index: 1051;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 26px;
+  position: absolute;
+  top: 7px;
+  right: 11px;
+  width: 20px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #fff;
+  font-size: 10px;
+  line-height: 28px;
+  padding: 5px 12px;
+}
+
+.select2-container {
+  width: 198px;
+}
+
+@media screen and (max-width: 880px) {
+	body {
+		width: auto;
+	}
+}
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<canvas id="canvas" style="border:2px solid black;" width="1000" height="1000">
+</canvas>
+<div class='app'>
+  <div class='zoom'>
+    <div class='pan'>
+      <div class='scene' id='scene'>
+        <div class='pcount'>
+          <h5>Pixel Count</h5>
+          <span class='c'>0</span>
+          <span>/ 1000</span>
+          <p>Because it's not built in canvas, will start to lag when drawing after a few 100 pixels</p>
+        </div>
+        <div class='row'></div>
+        <div class='col'></div>
+        <div class='frame frame1'>
+          <div class='pixels'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class='menu'>
+    <div class='menu_logo'>
+      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/pixelizer_logo.png'>
+    </div>
+    <div class='menu_options'>
+      <h2>Scene options</h2>
+      <p>You must set these first otherwise your drawing will be deleted</p>
+      <div class='menu_options__psize'>
+        <h3>Pixel size</h3>
+        <h3 class='abs'>Scene name</h3>
+        <input class='w' type='number'>
+        <input class='name' value='My no div pixel art'>
+      </div>
+      <div class='menu_options__ssize'>
+        <h3>Scene size</h3>
+        <button class='s active'>S</button>
+        <button class='m'>M</button>
+        <button class='l'>L</button>
+        <button class='xl'>XL</button>
+        <input class='w' type='hidden'>
+        <input class='inactive h' type='hidden'>
+      </div>
+      <div class='menu_options__bcolor'>
+        <h3>Scene background</h3>
+        <input id='bgpicker'>
+        <div class='coutput'>#2f303e</div>
+      </div>
+    </div>
+    <div class='menu_effects'>
+      <h2>Scene effects</h2>
+      <p>Add dithering and reflections to your creation</p>
+      <div class='menu_effects__reflect'>
+        <label for='reflect'>
+          <h4>
+            <i class='fa fa-image'></i>
+            Reflect
+          </h4>
+        </label>
+        <input id='reflect' type='checkbox'>
+      </div>
+    </div>
+    <div class='menu_animations'>
+      <h2>Scene animations</h2>
+      <p>Add simple animations to your creation</p>
+      <div class='menu_animations__animation'>
+        <h4>Select animation</h4>
+        <select>
+          <option>No animation</option>
+          <option>Spin</option>
+          <option>Bounce</option>
+          <option>Wobble</option>
+        </select>
+      </div>
+    </div>
+  </aside>
+  <div class='overlay'></div>
+  <nav class='tools'>
+    <div class='tools_zoom'>
+      <h5>Zoom level</h5>
+      <input max='30' min='10' type='range' value='0'>
+      <div class='tip'>
+        x 1.0
+      </div>
+    </div>
+    <div class='tools_grid'>
+      <i class='fa fa-th'></i>
+      <div class='tipt'>Toggle grid [g]</div>
+    </div>
+    <div class='tools_pan inactive'>
+      <i class='fa fa-arrows-alt'></i>
+      <div class='tipt'>Toggle pan [Hold space]</div>
+    </div>
+    <div class='tools_center inactive'>
+      <i class='fa fa-bullseye'></i>
+      <div class='tipt'>Re center [c]</div>
+    </div>
+    <div class='tools_symx inactive'>
+      <i class='fa fa-arrows-h'></i>
+      <div class='tipt'>Symetry X [x]</div>
+    </div>
+    <div class='tools_symy inactive'>
+      <i class='fa fa-arrows-v'></i>
+      <div class='tipt'>Symetry Y [Y]</div>
+    </div>
+    <div class='tools_export_code'></div>
+    <div class='tools_export_png'>
+      <a>
+        Export as image
+      </a>
+    </div>
+  </nav>
+  <div class='picker'>
+    <h2>
+      <i class='fa fa-paint-brush'></i>
+      Color Selector
+    </h2>
+    <input id='colorpicker'>
+    <div class='col'></div>
+    <div class='output'>#ffffff</div>
+    <div class='pick'>
+      <div class='tipt'>Pick color [p]</div>
+      <i class='fa fa-crosshairs'></i>
+    </div>
+  </div>
+</div>
+<div class='pickOverlay'></div>
+<div class='keyframes'>
+  <!-- /.playhead -->
+  <div class='keyframes_control'>
+    <h4>Timeline</h4>
+    <div class='controls'>
+      <h4>Onion skin:</h4>
+      <div class='onion'>
+        <input checked='checked' id='onion' type='checkbox'>
+      </div>
+      <h4>FPS:</h4>
+      <input class='f' value='30'>
+      <h4>Controls:</h4>
+      <div class='start'>
+        <i class='fa fa-fast-backward'></i>
+      </div>
+      <div class='prev'>
+        <i class='fa fa-step-backward'></i>
+      </div>
+      <div class='play'>
+        <i class='fa fa-play'></i>
+      </div>
+      <div class='next'>
+        <i class='fa fa-step-forward'></i>
+      </div>
+      <div class='end'>
+        <i class='fa fa-fast-forward'></i>
+      </div>
+    </div>
+  </div>
+  <div class='frames'>
+    <div class='o'></div>
+    <div class='wrap'>
+      <div class='frame activeF frame1' data-frame='1'>
+        <div class='frameTitle'>
+          Frame #1
+        </div>
+        <i class='fa fa-trash'></i>
+        <i class='fa fa-copy'></i>
+      </div>
+    </div>
+  </div>
+  <div class='add'>
+    +
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.js'></script><script  src="./script.js"></script>
+<script>
+// Default dimensions
+let defPixelWidth = 10;
+let defSceneHeight = 200;
+let defSceneWidth = 300;
+sh = defSceneHeight;
+sw = defSceneWidth;
+pw = defPixelWidth;
+
+// Set up the ui
+function setUI() {
+    $('.menu_options__psize .w').val(defPixelWidth);
+    $('.menu_options__psize .h').val(defPixelWidth);
+    $('.menu_options__ssize .w').val(defSceneWidth);
+    $('.menu_options__ssize .h').val(defSceneHeight);
+    $('button.s').data('size',`${defSceneWidth},${defSceneHeight}`);
+    $('button.m').data('size',`${defSceneWidth * 1.5},${defSceneHeight * 1.5}`);
+    $('button.l').data('size',`${defSceneWidth * 2},${defSceneHeight * 2}`);
+    $('button.xl').data('size',`${defSceneWidth * 2.5},${defSceneHeight * 2.5}`);
+}
+
+setUI();
+
+// Render the scene
+function drawGrid(sw, sh, pw) {
+    $('.scene .row, .scene .col').html('');
+    $('.scene').width(sw);
+    $('.scene').height(sh);
+
+    for(i = 0; i < sw / pw; i++) {
+        $('.scene .col').append(`<div class="scene_pixelcolumn" style="width:${pw}px; height:${sh}px"></div>`);
+    }
+
+    for(i = 0; i < sh / pw; i++) {
+        $('.scene .row').append(`<div class="scene_pixelrow" style="width:${sw}px; height:${pw}px"></div>`);
+    }
+}
+
+drawGrid(defSceneWidth, defSceneHeight, defPixelWidth);
+
+// Fire the render scene when input is changed
+$('.menu_options__psize input.w').change(() => {
+    if($('.menu_options__psize input.w').val() == '') {
+        $('.menu_options__psize input.w').val('1');
+    }
+    if($('.scene_pixel').length != 0) {
+        const r = confirm("Changing this will delete your current progress!");
+        if (r == true) {
+            $('.scene_pixel').remove()
+            pw = $('.menu_options__psize input.w').val();
+            sw = $('.menu_options__ssize input.w').val();
+            sh = $('.menu_options__ssize input.h').val();
+            checkAspectRatio(sw, sh, pw);
+        } 
+    } else {
+        pw = $('.menu_options__psize input.w').val();
+        sw = $('.menu_options__ssize input.w').val();
+        sh = $('.menu_options__ssize input.h').val();
+        checkAspectRatio(sw, sh, pw);
+    }
+});
+
+function changeSceneSize(button) {
+    if($('.scene_pixel').length != 0) {
+        const r = confirm("Changing this will delete your current progress!");
+        if (r == true) {
+            if($('.tools_grid').hasClass('inactive')){
+                $('.tools_grid').click();
+            }
+
+            $('.scene_pixel').remove()
+            pw = $('.menu_options__psize input.w').val();
+            sw = button.data('size').split(',')[0];
+            sh = button.data('size').split(',')[1];
+            $('button').removeClass('active');
+            button.addClass('active');
+            drawGrid(sw, sh, pw);
+        }
+    } else { 
+        if($('.tools_grid').hasClass('inactive')){
+            $('.tools_grid').click();
+        }
+        pw = $('.menu_options__psize input.w').val();
+        sw = button.data('size').split(',')[0];
+        sh = button.data('size').split(',')[1];
+        $('button').removeClass('active');
+        button.addClass('active');
+        drawGrid(sw, sh, pw);
+    }
+}
+
+$('button.s, button.m, button.l, button.xl').click(function() {
+    button = $(this);
+    changeSceneSize(button);
+});
+
+
+// Let's work some magic on the scene size to keep things aspect ratio
+function checkAspectRatio(sw, sh, pw) {
+
+    let nearestW = Math.ceil(sw / pw) * pw;
+    let nearestH = Math.ceil(sh / pw) * pw;
+
+    $('.menu_options__ssize input.w').val(nearestW);
+    $('.menu_options__ssize input.w').val(nearestW);
+    $('.menu_options__ssize input.h').val(nearestH);
+
+    sw = $('.menu_options__ssize input.w').val();
+    sh = $('.menu_options__ssize input.h').val();
+
+    $('button.s').data('size',`${sw},${sh}`);
+    $('button.m').data('size',`${sw * 1.5},${sh * 1.5}`);
+    $('button.l').data('size',`${sw * 2},${sh * 2}`);
+    $('button.xl').data('size',`${sw * 2.5},${sh * 2.5}`);
+
+    drawGrid(sw, sh, pw);
+}
+
+// Toggle reflect
+
+reflection = false;
+hasReflect = ''
+
+
+
+$('input#reflect').change(function() {
+    $('.scene').toggleClass('reflect');
+    $(this).prev().toggleClass('active');
+    updateForm()
+
+    if(reflection == false) {
+        reflection = true;
+        hasReflect = '-webkit-box-reflect: below 10px -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 76%, white 107%);\r\n'
+
+    } else {
+        reflection = false;
+        hasReflect = ''
+    }
+    console.log(hasReflect)
+
+});
+
+// Toggle grid
+let grid = true;
+
+$('.tools_grid').click(function() {
+    if(grid) {
+        $('.scene_pixelrow, .scene_pixelcolumn').css('box-shadow', 'none');
+        $('.scene').css('border', 'none');
+        $(this).addClass('inactive')
+        grid = false;
+    } else {
+        $('.scene').css('border', '1px solid #d0baef');
+        $('.scene_pixelrow').css('box-shadow', '0px 1px rgba(255,255,255, 0.2) inset, 1px 0px rgba(255,255,255, 0.2) inset')
+        $('.scene_pixelcolumn').css('box-shadow', '0px 1px rgba(255,255,255, 0.2) inset, 1px 0px rgba(255,255,255, 0.2) inset')
+        grid = true;
+        $(this).removeClass('inactive')
+    }
+
+})
+
+let level = 1;
+let scrollLevel = 10;
+
+function zoom() {
+    level = $('.tools_zoom input').val() / 10;
+    scrollLevel = $('.tools_zoom input').val();
+
+    $('.tip').html(`x ${level}`);
+    $('.tip').css('left', `${level * 102 - 110}px`);
+    $('.tip').css('opacity', 1);
+    $('.zoom').css('transform',`scale(${level})`);
+}
+
+// Let's get the zoom working
+$('.tools_zoom input').on("input change", () => {
+    zoom();
+})
+
+$('.tools_zoom input').on("change", () => {
+    setTimeout(() => {
+        $('.tip').css('opacity', 0);
+    }, 200)
+});
+
+
+$('.pan').bind('mousewheel', e => {
+    level = $('.tools_zoom input').val() / 10;
+
+    if(e.originalEvent.wheelDelta /120 > 0) {
+        if(scrollLevel < 30) {
+            scrollLevel++
+        }
+    } else {
+        if(scrollLevel > 10) {
+            scrollLevel--
+        }
+    }
+    $('.tools_zoom input').val(scrollLevel)
+    zoom()
+
+    setTimeout(() => {
+        $('.tip').css('opacity', 0);
+    }, 200)
+});
+
+// Draw
+
+let drawing = false;
+let deleting = false;
+
+$('.scene').mousedown(e => {
+    if (e.which === 1) {
+        drawing = true;
+        console.log('drawing')
+    }
+    if (e.which === 3) {
+        deleting = true
+    }
+
+});
+
+$(document).mouseup(() => {
+
+    drawing = false;
+    deleting = false;
+
+});
+
+$('.scene').contextmenu(e => {
+    deletePixel(e, $('.scene'));
+    return false;
+})
+
+
+document.onmousemove = e => {
+
+    if(picking){
+        $('.pickOverlay').css('left', e.clientX - 20 + 'px')
+        //console.log(e.clientX)
+        $('.pickOverlay').css('top', e.clientY + - 25 + 'px')
+    }
+
+    if(!pan && drawing && !picking){
+        draw(e, $('.scene'));
+    }
+
+
+    if(deleting) {
+        deletePixel(e, $('.scene'));
+    }
+}
+
+$('.scene').click(function(e) {
+    if(!pan && !picking){
+        draw(e, $(this));
+    }
+
+});
+
+output = '';
+symY = false;
+symX = false;
+sym = ''
+symA = ''
+
+// Get where the pixel should be whilst taking into account scaling
+
+function getRelativePosition(e, el) {
+    div = document.getElementById("scene");
+    dim = div.getBoundingClientRect();
+    x = Math.floor( ((e.clientX - dim.left) / pw) / level);
+    y = Math.floor(((e.clientY - dim.top) / pw) / level);
+}
+
+function addPixelsToOutput() {
+    frameObject = [];
+
+    if($('.keyframes .frame').length == 1) {
+        $('.scene_pixel').each(function() {
+            output = `${output}${$(this).css('left').slice(0, -2) + 'px'} ${$(this).css('top').slice(0, -2) + 'px'} ${$(this).css('background-color')}, `;
+        });
+    } else {
+        console.log('frame')
+        $('.scene .frame').each(function() {
+            frame = []
+            $(this).find('.scene_pixel').each(function() {
+                frame.push(`${$(this).css('left').slice(0, -2) + 'px'} ${$(this).css('top').slice(0, -2) + 'px'} ${$(this).css('background-color')} `)
+
+            })
+            frameObject.push(frame)
+        })
+
+        endAnimation = []
+
+        if(frameObject[0] == '') {
+
+            endAnimation.push(0 + '%{box-shadow: 0}')
+
+        } else {
+            endAnimation.push(0 + '%{box-shadow: ' + frameObject[0].join() + '}')
+        }
+
+        for(i = 1; i < frameObject.length; i++) {
+            if(frameObject[i] == '') {
+                endAnimation.push(0 + (i * (100 / frameObject.length)) + '%{box-shadow: 0}')
+                endAnimation.push(0 + (i * (100 / frameObject.length) - 1) + '%{box-shadow: 0}')
+                endAnimation.push(0 + (i * (100 / frameObject.length) + 1) + '%{box-shadow: 0}')
+            } else {
+                endAnimation.push(0 + (i * (100 / frameObject.length)) + '%{box-shadow: ' + frameObject[i].join() + '}')
+                endAnimation.push(0 + (i * (100 / frameObject.length) - 1) + '%{box-shadow: ' + frameObject[i - 1].join() + '}')
+                endAnimation.push(0 + (i * (100 / frameObject.length) + 1) + '%{box-shadow: ' + frameObject[i].join() + '}')
+            }
+
+        }
+
+        if(frameObject[0] == '') {
+
+            endAnimation.push(100 + '%{box-shadow: ' + frameObject[0].join() + '}')
+
+        } else {
+            endAnimation.push(100 + '%{box-shadow:0}')
+        }
+
+        if(frameObject[frameObject.length - 1] == '') {
+            endAnimation.push(99 + '%{box-shadow:0}')
+
+        } else {
+            endAnimation.push(99 + '%{box-shadow: ' + frameObject[frameObject.length - 1].join() + '}')
+        }
+
+        animationTime = (1000 / fpsInput) * frameObject.length + 'ms';
+
+        console.log(animationTime)
+
+    }
+
+}
+
+function checkSymetry(el) {
+    // If symetry is on for y plane
+    if(symY == true && symX == false) {
+        if(pw % 2 != true){
+            sym = (sh) - (y + 1) * pw
+        } else {
+            sym = (sh) - (y - 0.5) * pw;
+        }
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${relativex}px; top:${sym}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+    }
+
+    // If symetry is on for x plane
+    if(symX == true && symY == false) {
+        sym = (sw) - (x + 1) * pw
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${sym}px; top:${relativey}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+    }
+
+    if(symX == true && symY == true) {
+        sym = (sw) - (x + 1) * pw;
+        symA = (sh) - (y + 1) * pw;
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${relativex}px; top:${symA}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${sym}px; top:${relativey}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${sym}px; top:${symA}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+    }
+}
+
+function draw(e, el) {
+    // Calculate positions
+    getRelativePosition(e, el);
+
+    output = ''; // Reset our end CSS
+
+    $('.pcount .c').html($('.scene_pixel').length)
+    let f = $('.activeF').data('frame'); // This will need to change
+    console.log(f)
+    makeCanvasPreview(f)
+
+
+    if(x < (sw / pw) && y < (sh / pw) && x > -1 && y > -1) { // Check if not out of bounds
+        // Remove any overlapping pixels
+        $('.frame' + activeFrame + ' .scene_pixel').each(function() {
+            if($(this).css('top') == `${y * pw}px` && $(this).css('left') == `${x * pw}px`) {
+                $(this).remove();
+            }
+        })
+
+        relativex = (x * pw); // Cater for scale
+        relativey = (y * pw); // Cater for scale
+
+        // Add pixel
+        console.log(activeFrame)
+        $('.frame' + activeFrame + ' .pixels').append(`<div class="scene_pixel" style="left:${relativex}px; top:${relativey}px; width:${pw}px; position: absolute; height:${pw}px; background:${currentColor}"></div>`);
+
+        checkSymetry(el);
+
+        // Add all scene pixels to an output variable which is injected in to the form post for a new pen
+        addPixelsToOutput()
+    }
+    // Inject data
+    updateForm();
+}
+
+function deletePixel(e, el) {
+    // Calculate positions
+    getRelativePosition(e, el);
+    output = '';  // Reset our end CSS
+
+    $('.pcount .c').html($('.scene_pixel').length)
+
+    // Remove pixels
+    $('.frame' + activeFrame + ' .scene_pixel').each(function() {
+        if($(this).css('top') == `${y * defPixelWidth}px` && $(this).css('left') == `${x * defPixelWidth}px`) {
+            $(this).remove();
+        }
+    });
+
+    // Add all scene pixels to an output variable which is injected in to the form post for a new pen
+    addPixelsToOutput();
+
+    // Inject data
+    updateForm();
+}
+
+// Make panable
+$('.picker').draggable();
+
+$('.tools_symx').click(function(){
+    $(this).toggleClass('inactive')    
+
+    if(symX == false) {
+        symX = true;
+        $('.scene').append('<div class="symx"></div>')
+    } else {
+        symX = false;
+        $('.symx').remove();
+    }
+    console.log(symX)
+})
+
+$('.tools_symy').click(function(){
+    $(this).toggleClass('inactive')    
+
+    if(symY == false) {
+        symY = true;
+        $('.scene').append('<div class="symy"></div>')
+    } else {
+        symY = false;
+        $('.symy').remove();
+    }
+    console.log(symX)
+})
+// Animations
+$('select').change(function(){
+    $('.scene').removeClass('Spin');
+    $('.scene').removeClass('Bounce')
+    $('.scene').removeClass('Wobble')
+    $('.scene').addClass($(this).val())
+})
+
+// Let's initiate our color pickers
+var currentColor = '#ffffff';
+let bgColor = '#2f303e';
+
+$("#colorpicker").spectrum({
+    color: "ffffff",
+    preferredFormat: "hex",
+    flat: true,
+    showInput: true,
+    move(color) {
+        currentColor = color.toHexString(); // #ff0000
+        $('.output').html(currentColor);
+        $('.picker .col').css('background', currentColor);
+    }
+});
+
+$("#bgpicker").spectrum({
+    color: "2f303e",
+    preferredFormat: "hex",
+    showInput: true,
+    move(color) {
+        bgColor = color.toHexString(); // #ff0000
+        $('body').css('background', bgColor);
+        $('.coutput').html(bgColor);
+    }
+});
+
+$('.name').keyup(() => {
+    updateForm()
+})
+function updateForm() {
+
+    console.log(' There are ' + $('.keyframes .frame').length)
+    if($('.keyframes .frame').length == 1) {
+        console.log('test')
+        CSS = `$baseSize: ${pw}px; \/\/ Change base size\r\n$pixelWidth: ${sw};\r\n$pixelHeight: ${sh};\r\n$bg: ${bgColor};\r\n$dither: 10;\r\n$r: #ea1818;\r\n$black: #c38f4e;\r\n$w: #ffffff;\r\n\r\n\/\/ x, y, c\r\n$shadows:(  \r\n);\r\n\r\n$end-shadow: '';\r\n\r\n@each $x, $y, $c in $shadows {\r\n    $rand: random($dither);\r\n    $shadow-x: $baseSize * $x; \r\n    $shadow-y: $baseSize * $y; \r\n    $shadow: $shadow-x $shadow-y 0 $c;\r\n    $end-shadow: $end-shadow + $shadow + ', ';\r\n    @debug($end-shadow);\r\n}\r\n\r\n%abs {\r\n    position: absolute;\r\n    left: 0;\r\n    right: 0;\r\n    margin: auto;\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n%scene {\r\n    @extend %abs;\r\n\r\n    ${hasReflect}width: $pixelWidth + px;\r\n    height: $pixelHeight + px;\r\n    background: $bg;\r\n    \r\n    &::after {\r\n        position: relative;\r\n        box-shadow: ${output}; \r\n        width: $baseSize;\r\n        height: $baseSize;\r\n        display: block;\r\n        content: '';\r\n    }\r\n}\r\n\r\nbody {\r\n    @extend %scene;\r\n}`  
+    } else {
+        console.log('test2')
+        CSS = `$baseSize: ${pw}px; \/\/ Change base size\r\n$pixelWidth: ${sw};\r\n$pixelHeight: ${sh};\r\n$bg: ${bgColor};\r\n$dither: 10;\r\n$r: #ea1818;\r\n$black: #c38f4e;\r\n$w: #ffffff;\r\n\r\n\/\/ x, y, c\r\n$shadows:(  \r\n);\r\n\r\n$end-shadow: '';\r\n\r\n@each $x, $y, $c in $shadows {\r\n    $rand: random($dither);\r\n    $shadow-x: $baseSize * $x; \r\n    $shadow-y: $baseSize * $y; \r\n    $shadow: $shadow-x $shadow-y 0 $c;\r\n    $end-shadow: $end-shadow + $shadow + ', ';\r\n    @debug($end-shadow);\r\n}\r\n\r\n%abs {\r\n    position: absolute;\r\n    left: 0;\r\n    right: 0;\r\n    margin: auto;\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n%scene {\r\n    @extend %abs;\r\n\r\n    ${hasReflect}width: $pixelWidth + px;\r\n    height: $pixelHeight + px;\r\n    background: $bg;\r\n    \r\n    &::after {\r\n        position: relative;\r\n        animation: anim ${animationTime} infinite; \r\n        width: $baseSize;\r\n        height: $baseSize;\r\n        display: block;\r\n        content: '';\r\n    }\r\n}\r\n\r\nbody {\r\n    @extend %scene;\r\n} @keyframes anim {${endAnimation.join('')}}`  
+    }
+
+
+    CSS.replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+
+    const data = {
+        title              : $('.name').val(),
+        css                : CSS,
+        css_pre_processor  : "scss",
+        html : "<!-- Made using the No Div Pixel Art Scene Builder by Jamie Coulter https://codepen.io/jcoulterdesign/pen/oqPNXL -->"
+    };
+
+    const JSONstring = JSON.stringify(data);
+
+    $('.change').val(JSONstring);
+}
+
+const el = $('body');
+var CSS = "";
+
+
+const data = {
+    title              : "",
+};
+
+const JSONstring = 
+      JSON.stringify(data);
+
+const form = 
+      `<form action="https://codepen.io/pen/define" method="POST" target="_blank"><input class="change" type="hidden" name="data" value='${JSONstring}'><input type="submit" width="40" height="40" value="Export to new pen"></form>`;
+
+$('.tools_export_code').append(form);
+
+function makeCanvas(f) {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = sw;
+    canvas.height = sh;
+    
+    
+
+
+    let data = `<svg xmlns="http://www.w3.org/2000/svg" style="background:${bgColor};" width="1000" height="1000"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">${$('.frame' + f + ' .pixels').html()}</div></foreignObject></svg>`;
+    data = encodeURIComponent(data);
+    const img = new Image();
+    img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+            const newImg = document.createElement('img');
+            const url = URL.createObjectURL(blob);
+            window.open(url);
+        });
+    }
+    img.src = `data:image/svg+xml,${data}`
+
+    return img;
+}
+
+
+
+function makeCanvasPreview(frame) {
+    console.log('f is' + frame);
+    const canvas = document.getElementById('canvas' + frame);
+    console.log(canvas)
+    const ctx = canvas.getContext('2d');
+    canvas.width = sw;
+    canvas.height = sh;
+
+
+    let data = `<svg xmlns="http://www.w3.org/2000/svg" style="background:${bgColor};" width="1000" height="1000"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="font-size:40px">${$('.frame' + frame).html()}</div></foreignObject></svg>`;
+    data = encodeURIComponent(data);
+    const img = new Image();
+    img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+            const newImg = document.createElement('img');
+            const url = URL.createObjectURL(blob);
+        });
+    }
+    img.src = `data:image/svg+xml,${data}`
+
+    return img;
+}
+
+$('.tools_export_png').click(() => {
+    makeCanvas($('.activeF').data('frame'));
+})
+
+pan = false;
+$('.pan').draggable();
+$('.pan').draggable('disable');
+
+
+
+$('.tools_pan').click(function() {
+    $(this).toggleClass('inactive')
+    if(pan == false) {
+        $('.pan').draggable('enable');
+        $('.pan').css('cursor','move');
+        pan = true
+    } else {
+        pan = false
+        $('.pan').css('cursor','default');
+        $('.pan').draggable('disable');
+    }
+
+})
+$(document).keydown(event => {
+    if ( event.which == 32 ) {
+        pan = true
+        $('.tools_pan').removeClass('inactive')
+        $('.pan').draggable('enable');
+        $('.pan').css('cursor','move');
+    }
+    if ( event.which == 80 ) {
+        $('.pick').click();
+    }
+
+    if ( event.which == 71 ) {
+        $('.tools_grid').click();
+    }
+
+    if ( event.which == 67 ) {
+        $('.tools_center').click();
+    }
+
+    if ( event.which == 88 ) {
+        $('.tools_symx').click();
+    }
+
+    if ( event.which == 89 ) {
+        $('.tools_symy').click();
+    }
+})
+
+$(document).keyup(event => {
+    if ( event.which == 32 ) {
+        pan = false   
+        $('.tools_pan').addClass('inactive')
+        $('.pan').css('cursor','default');
+        $('.pan').draggable('disable');
+    }
+})
+
+$('.tools_center').click(function() {
+    $('.pan').css({'left': '0px'})
+    $('.pan').css({'top': '0px'})
+    $('.pan').css({'transition': 'transform .5s, top .5s, left .5s'})
+
+    setTimeout(function(){
+        $('.pan').css({'transition': 'transform 0s, top 0s, left 0s'})
+
+    }, 1000)
+
+})
+picking = false;
+
+
+$('.pick').click(function(e){
+    picking = true;
+    $('.pickOverlay').css('background', bgColor)
+    $('.pickOverlay').show()
+    $('.fa-crosshairs').addClass('active')
+    $('.pickOverlay').css('left', e.clientX - 20 + 'px')
+    //console.log(e.clientX)
+    $('.pickOverlay').css('top', e.clientY + - 25 + 'px')
+})
+
+
+
+$(document).on('click', '.scene_pixel', function(){
+    if(picking){
+        $("#colorpicker").spectrum("set", $(this).css('background'));
+        currentColor = $(this).css('background')
+        picking = false;
+        $('.pickOverlay').hide()
+        $('.fa-crosshairs').removeClass('active')
+    }
+})
+
+$(document).on('click', '.pan', function(){
+    if(picking){
+        picking = false;
+        $('.pickOverlay').hide()
+        $('.fa-crosshairs').removeClass('active')
+    }
+})
+
+$(document).on('mouseenter', '.scene_pixel', function(){
+    if(picking){
+        console.log('tesdt')
+        $('.pickOverlay').css('background', $(this).css('background'))
+    }
+})
+
+$('select').select2();
+$(document).on('mouseleave', '.scene_pixel', function() {
+    if(picking){
+        console.log('tesdt')
+        $('.pickOverlay').css('background', bgColor)
+    }
+})
+
+// keyframes
+
+frames = 1;
+activeFrame = 1;
+onionSkinOn = true;
+
+function onionSkin(e){
+    if(onionSkinOn) {
+        $('.scene .frame').css('opacity',1)
+        $('.scene .frame' + (e - 1)).show().css('opacity', 0.4)
+        console.log($('.scene .frame' + (e-1)))
+    } else {
+        $('.scene .frame' + (e - 1)).hide()
+        $('.scene .frame').css('opacity',1)
+    }
+}
+
+
+$('#onion').click(function(){
+    if(onionSkinOn) {
+        onionSkinOn = false
+    } else {
+        onionSkinOn = true
+    }
+
+    onionSkin($('.activeF').data('frame'))
+})
+
+function buildKeyframes() {
+    animation = 0;
+    base = 100 / $('.scene .frame').length;
+
+
+    console.log(animation);
+}
+
+animationProgress = 0;
+fpsInput = 30;
+
+$('.controls input.f').change(function(){
+    stopAnimation()
+    fpsInput = $(this).val();
+})
+
+function playAnimation(){
+    fps = 1000 / fpsInput
+    $('.scene .frame').css('opacity',1)
+    anim = setInterval(function() {
+        animationProgress++;
+        if(animationProgress < $('.scene .frame').length + 1){
+            $('.scene .frame').hide();
+            $('.scene .frame' + animationProgress).show();
+        } else {
+            animationProgress = 0;
+        }
+        console.log(animationProgress)
+    }, fps)    
+}
+
+playing = false;
+
+$('.play').click(function(){
+
+    if(playing) {
+        stopAnimation()
+        playing = false;
+        $(this).html('<i class="fa fa-play"></i>')
+    } else {
+        playAnimation()
+        playing = true;
+        $(this).html('<i class="fa fa-stop"></i>')
+    }
+})
+frame = 1;
+$('.stop').click(function(){
+    stopAnimation()
+})
+
+$('.keyframes .frames .frame1').append('<canvas id="canvas' + 1 + '"></canvas>')
+
+
+function stopAnimation() {
+    clearInterval(anim);
+}
+
+$('.wrap').draggable({ axis: "x" })
+
+$('.fa-copy').click(function(){
+    frames++;
+    $('.scene .frame').hide();
+    $('.scene').append('<div class="frame frame' + frames +'"><div class="pixels">' + $('.scene .frame' + $(this).parent().data('frame')).html() + '</div></div>');
+    
+
+    $('.activeF').removeClass('activeF')
+    $('.keyframes .frames .wrap').append('<div data-frame="' + frames +'" class="frame activeF frame' + frames +'"><div class="frameTitle">Frame #' + frames + '</div><i class="fa fa-trash"> </i><i class="fa fa-copy"> </i></div>');
+    $('.keyframes .frames .frame' + frames).append('<canvas id="canvas' + frames + '"></canvas>')
+    activeFrame = frames;
+    onionSkin(frames);
+    buildKeyframes();
+     makeCanvasPreview(parseInt($(this).parent().data('frame') + 1))
+})
+
+$('.keyframes .add').click(function() {
+    frames++;
+    $('.scene .frame').hide();
+    $('.scene').append('<div class="frame frame' + frames +'"><div class="pixels"></div></div>');
+    $('.activeF').removeClass('activeF')
+    $('.keyframes .frames .wrap').append('<div data-frame="' + frames +'" class="frame activeF frame' + frames +'"><div class="frameTitle">Frame #' + frames + '</div><i class="fa fa-trash"> </i><i class="fa fa-copy"> </i></div>');
+    $('.keyframes .frames .frame' + frames).append('<canvas id="canvas' + frames + '"></canvas>')
+    activeFrame = frames;
+    onionSkin(frames);
+    buildKeyframes();
+});
+
+$(document).on('click', '.keyframes .frame', function() {
+    $('.activeF').removeClass('activeF');
+    $(this).addClass('activeF')
+
+    let clicked = $(this).data('frame');
+
+    $('.scene .frame').hide();
+    $('.scene .frame' + clicked).show();
+    activeFrame = clicked;
+    onionSkin(clicked);
+    buildKeyframes();
+});
+
+$('.fa.fa-step-forward').click(function(){
+    $('.activeF').next().click()
+})
+
+$('.fa.fa-fast-forward').click(function(){
+    $('.keyframes .frame:last').click()
+})
+
+$('.fa.fa-fast-backward').click(function(){
+    $('.keyframes .frame:first').click()
+})
+
+$('.fa.fa-step-backward').click(function(){
+    $('.activeF').prev().click()
+})
+</script>
+</body>
+</html>
