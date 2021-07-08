@@ -126,7 +126,7 @@
 </div>
 <script language="javascript" type="text/javascript">
 function checkCost() {
-	document.getElementById("btn").innerHTML = "Yt = 0+13, lq = 0+13, Px = 0+13, Wp = 39+13, Zy = 26+13";
+	document.getElementById("btn").innerHTML = "Yt = 26, lq = 13, Px = 26, Wp = 13, Zy = 52";
 }
 (function() {
     const second = 1000,
@@ -134,7 +134,7 @@ function checkCost() {
           hour = minute * 60,
           day = hour * 24;
     
-    var countDay = 7;
+    var countDay = 8;
     
     function checkMonth(countDay) {
 		if (countDay >= 1 && countDay <= 12) {
@@ -197,7 +197,7 @@ function checkCost() {
                 countdown = document.getElementById("countdown"),
                 content = document.getElementById("content");
 				
-                headline.innerText = "Yt = 13, lq = 0, Px = 13, Wp = 0, Zy = 39";
+                headline.innerText = "";
                 countdown.style.display = "none";
                 content.style.display = "block";
 
