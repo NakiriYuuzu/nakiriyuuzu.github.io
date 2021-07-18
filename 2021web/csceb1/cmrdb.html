@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8"/>
+<title>Good Websites</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+$(window).on("load resize ", function() {
+  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  $('.tbl-header').css({'padding-right':scrollWidth});
+}).resize();
+</script>
+<style type="text/css">
+
+body, html{
+  height: 100%;
+  margin: 0;
+  font-family: 'Noto Sans TC', Bold, monospace;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+h1{
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  font-weight: 550;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+table{
+  width:100%;
+  table-layout: fixed;
+}
+
+.tbl-header{
+  background-color: #34495e;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-top: 50px;
+ }
+ 
+.tbl-content{
+  background-color: #34495e;
+  height: auto;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255, 255, 255,0.1);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 28px;
+  color: rgba(255,255, 0, 1);
+  font-family: 'Noto Sans TC', Bold, sans-serif;
+}
+
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: 'Noto Sans TC', times, fantasy;
+  color: rgba(255,255,255,1);
+  border: solid 1px rgba(255, 255, 255, 0.2);
+}
+
+.th01, .td01{
+  width: 10%;
+}
+
+tr:nth-child(even){
+  background-color: rgba(220, 200, 220, 0.2);
+}
+
+tr:first-child{
+  width: 10%;
+}
+
+th:first-child{
+  width: 20%;
+}
+
+td:first-child{ 
+  width: 20%;
+}
+	
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+	
+section{
+  border: 3px solid rgba(241,241,241,0.5);
+  border-radius: 50px;
+  background-color: rgba(255,255,255,0.3);
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 65%;
+  padding-top: 1px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+}
+
+.bg-image{
+  height: 100%;
+  background: -webkit-linear-gradient(to bottom right, #737DFE, #FFCAC9);
+  background: linear-gradient(to bottom right, #737DFE, #FFCAC9);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 650px) {
+  section {
+  	top: 25%;
+	left: 25%;
+	position: absolute;
+    transform: translate(-25%, -25%);
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="bg-image"></div>
+<section>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>比較準則</th>
+          <th>adduser</th>
+          <th>useradd</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td>密碼</td>
+          <td>自動要求輸入</td>
+          <td>需使用 options</td>
+        </tr>
+		<tr>
+          <td>家目錄</td>
+          <td>自動在家目錄創建目錄</td>
+          <td>需使用 options，但可自行選擇目錄</td>
+        </tr>
+		<tr>
+		  <td>群組</td>
+          <td>自動幫你創好群組</td>
+          <td>需使用 options， 但可自由選擇群組</td>
+        </tr>
+		<tr>
+          <td>語法複雜度</td>
+          <td>比較簡單，但不自由</td>
+          <td>比較複雜，但相對的比較自由</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+</body>
+</html>
