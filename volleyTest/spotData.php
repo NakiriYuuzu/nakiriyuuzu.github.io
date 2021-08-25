@@ -72,3 +72,5 @@
                                     "Longitude" => 120.58019098909 
                                  ] 
 ]; 
+
+echo json_encode($jayParsedAry);
