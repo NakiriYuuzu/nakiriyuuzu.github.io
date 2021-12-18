@@ -41,14 +41,14 @@
   
   .cost {
   	width: auto;
-	height: auto;
-	background-color: aquamarine;
-	position: absolute;
-	border-radius: 30px;
-	top: 80%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
+	  height: auto;
+	  background-color: aquamarine;
+	  position: absolute;
+	  border-radius: 30px;
+	  top: 85%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  text-align: center;
   }
   
   h1 {
@@ -79,9 +79,18 @@
   .emoji {
     padding: 0 .25rem;
   }
+
+  .qrImage {
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent url('88798177_p0.jpg') center center no-repeat;
+    background-size: cover;
+  }
   
   #btn {
-  	background-color: rgba(255,255,255,0.0);
+  	background-color: #00ffff;
   }
   
   @media all and (max-width: 768px) {
@@ -119,6 +128,7 @@
       <span class="emoji">🎂</span>
     </div>
   </div>
+  <div class="qrImage"></div>
 </div>
 <div class="cost">
 	<button type="button" class="btn btn-lg" onClick="checkCost()">Check Cost</button>
@@ -126,8 +136,7 @@
 </div>
 <script language="javascript" type="text/javascript">
 function checkCost() {
-	var thisMonth ="Yt = 0, lq = 0, Px = 0, Wp = 0, Zy = 65";
-	var nextMonth = "Yt = 13, lq = 13, Px = 13, Wp = 13, Zy = 78";
+	var thisMonth ="Yt = 39, lq = 0, Px = 39, Wp = 39, Zy = 26";
 	document.getElementById("btn").innerHTML = thisMonth;
 }
 (function() {
@@ -136,45 +145,45 @@ function checkCost() {
           hour = minute * 60,
           day = hour * 24;
     
-    var countDay = 10;
+    var countDay = 1;
     
     function checkMonth(countDay) {
 		if (countDay >= 1 && countDay <= 12) {
 			if (countDay == 1) {
-            	return birthday = "Jan 08, 2021 12:00:00";
+            	return birthday = "Jan 08, 2022 12:00:00";
         	}
         	else if (countDay == 2){
-				return birthday = "Feb 08, 2021 12:00:00";
+				return birthday = "Feb 08, 2022 12:00:00";
         	}
         	else if (countDay == 3){
-				return birthday = "Mar 08, 2021 12:00:00";
+				return birthday = "Mar 08, 2022 12:00:00";
         	}
         	else if (countDay == 4){
-				return birthday = "Apr 08, 2021 12:00:00";
+				return birthday = "Apr 08, 2022 12:00:00";
         	} 
         	else if (countDay == 5){
-				return birthday = "May 08, 2021 12:00:00";
+				return birthday = "May 08, 2022 12:00:00";
         	} 
         	else if (countDay == 6){
-				return birthday = "Jun 08, 2021 12:00:00";
+				return birthday = "Jun 08, 2022 12:00:00";
         	} 
         	else if (countDay == 7){
-				return birthday = "Jul 08, 2021 12:00:00";
+				return birthday = "Jul 08, 2022 12:00:00";
         	} 
         	else if (countDay == 8){
-				return birthday = "Aug 08, 2021 12:00:00";
+				return birthday = "Aug 08, 2022 12:00:00";
         	} 
         	else if (countDay == 9){
-				return birthday = "Sep 08, 2021 12:00:00";
+				return birthday = "Sep 08, 2022 12:00:00";
         	} 
         	else if (countDay == 10){
-				return birthday = "Oct 08, 2021 12:00:00";
+				return birthday = "Oct 08, 2022 12:00:00";
         	} 
         	else if (countDay == 11){
-				return birthday = "Nov 08, 2021 12:00:00";
+				return birthday = "Nov 08, 2022 12:00:00";
         	} 
         	else if (countDay == 12){
-				return birthday = "Dec 08, 2021 12:00:00";
+				return birthday = "Dec 08, 2022 12:00:00";
         	}
 		}
 		else {
