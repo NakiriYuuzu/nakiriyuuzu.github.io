@@ -2,7 +2,7 @@
     el: '#app',
     data: {
         url: 'https://120.110.115.127:8000/api/Cost/',
-        message: 'Only work on pc browser, [Ctrl + F5]Refresh the Page Or Click View.',
+        message: 'Only work on pc browser, Or Click View.',
         countDate: 0,
     },
     created: function () {
@@ -13,12 +13,12 @@
     watch: {},
     methods: {
         getCost: function() {
+            this.message = ''
             this.$http.get(this.url)
                 .then(function (response) {
                     response.body.forEach((item => {
-                        this.message += item.name + ': ' + item.cost + '\n'
+                        this.message += item.name + ': ' + item.cost + '\n '
                     }))
-                    console.log(this.message)
                 })
                 .catch(function (error) {
                     console.log(error)
