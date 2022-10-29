@@ -13,9 +13,9 @@
     watch: {},
     methods: {
         getCost: function() {
-            this.message = ''
             this.$http.get(this.url)
                 .then(function (response) {
+                    this.message = ''
                     response.body.forEach((item => {
                         this.message += item.name + ': ' + item.cost + '\n '
                     }))
