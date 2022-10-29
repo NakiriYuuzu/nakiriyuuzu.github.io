@@ -1,7 +1,8 @@
 ﻿new Vue({
     el: '#app',
     data: {
-        message: '',
+        url: 'https://120.110.115.127:8000/api/Cost/',
+        message: 'Only work on pc browser, [Ctrl + F5]Refresh the Page Or Click View.',
         countDate: 0,
     },
     created: function () {
@@ -12,7 +13,7 @@
     watch: {},
     methods: {
         getCost: function() {
-            this.$http.get('https://120.110.115.127:8000/api/Cost/')
+            this.$http.get(this.url)
                 .then(function (response) {
                     response.body.forEach((item => {
                         this.message += item.name + ': ' + item.cost + '\n'
@@ -68,6 +69,14 @@
                 imageWidth: 250,
                 imageHeight: 250,
                 imageAlt: 'Banking Image',
+                showConfirmButton: true,
+                showDenyButton: true,
+                confirmButtonText: 'ok',
+                denyButtonText: 'View',
+            }).then((result) => {
+                if (result.isDenied) {
+                    window.location.href = this.url
+                }
             })
         },
         
