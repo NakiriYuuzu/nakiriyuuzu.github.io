@@ -12,7 +12,7 @@
     watch: {},
     methods: {
         getCost: function() {
-            this.$http.get('http://192.168.31.74:8000/api/Cost/')
+            this.$http.get('https://120.110.115.127:8000/api/Cost/')
                 .then(function (response) {
                     response.body.forEach((item => {
                         this.message += item.name + ': ' + item.cost + '\n'
