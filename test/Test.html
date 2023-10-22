@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Debug</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                client: null,
+            }
+        },
+        methods: {
+            sendData() {  // 送出資料
+                this.client.publish('mqtt/wy', '1')
+            }
+        },
+        created() {
+            this.client = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
+        },
+        mounted() {
+            this.client.on('connect', () => { // 連線成功
+                this.client.subscribe('mqtt/wy')
+                // this.sendData()
+            })
+            this.client.on('message', (topic, message) => { // 接收訊息
+                console.log(topic + ": " + message.toString())
+                if (message.toString() === "1") {
+                    window.location.href = 'https://chongweiyang0622.github.io/GraduationProject/RenYiMen/Food.html'
+                } else if (message.toString() === "2") {
+                    window.location.href = 'https://chongweiyang0622.github.io/GraduationProject/RenYiMen/Restoran.html'
+                }
+            })
+        }
+    })
+    app.mount('#app')
+</script>
+</body>
+</html>
