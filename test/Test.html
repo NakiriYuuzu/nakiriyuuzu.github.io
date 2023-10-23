@@ -23,7 +23,7 @@
             }
         },
         created() {
-            this.client = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
+            this.client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt')
         },
         mounted() {
             this.client.on('connect', () => { // 連線成功
