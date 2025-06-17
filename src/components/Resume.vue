@@ -91,6 +91,33 @@ import { personalInfo, education, experiences, skills, projects, languages } fro
     box-shadow: none;
     margin: 0;
     padding: 20px;
+    page-break-inside: avoid;
   }
+  
+  #resume section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  #resume .mb-6, #resume .mb-4, #resume .mb-3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+}
+
+/* PDF generation optimization */
+#resume {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+#resume p, #resume li {
+  line-height: 1.4;
+  margin-bottom: 0.5em;
+}
+
+#resume ul {
+  margin-top: 0.5em;
 }
 </style>

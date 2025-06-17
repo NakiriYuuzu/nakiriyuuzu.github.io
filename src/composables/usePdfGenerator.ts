@@ -12,7 +12,7 @@ export function usePdfGenerator() {
       // 臨時修改樣式以優化 PDF 生成，避免 OKLCH 顏色函數
       const originalStyle = element.style.cssText
       
-      // 強制轉換所有顏色為標準格式
+      // 強制轉換所有顏色為標準格式並優化文字顯示
       const printStyles = document.createElement('style')
       printStyles.textContent = `
         #${elementId}, #${elementId} * {
@@ -23,6 +23,10 @@ export function usePdfGenerator() {
           text-decoration-color: #000000 !important;
           fill: #000000 !important;
           stroke: #000000 !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          hyphens: auto !important;
+          line-height: 1.4 !important;
         }
         #${elementId} .text-gray-900, #${elementId} .text-gray-700, #${elementId} .text-gray-600 {
           color: #000000 !important;
@@ -32,6 +36,23 @@ export function usePdfGenerator() {
         }
         #${elementId} .bg-white {
           background-color: #ffffff !important;
+        }
+        #${elementId} section {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          margin-bottom: 20px !important;
+        }
+        #${elementId} .mb-6, #${elementId} .mb-4, #${elementId} .mb-3 {
+          page-break-after: avoid !important;
+          break-after: avoid !important;
+        }
+        #${elementId} p, #${elementId} li {
+          margin-bottom: 0.5em !important;
+          orphans: 3 !important;
+          widows: 3 !important;
+        }
+        #${elementId} ul {
+          margin-top: 0.5em !important;
         }
       `
       document.head.appendChild(printStyles)
@@ -59,7 +80,11 @@ export function usePdfGenerator() {
         backgroundColor: '#ffffff',
         width: element.scrollWidth,
         height: element.scrollHeight,
-        logging: false
+        logging: false,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       })
 
       // 還原原始樣式並清理臨時樣式
@@ -70,23 +95,21 @@ export function usePdfGenerator() {
       const imgData = canvas.toDataURL('image/png')
       const pdf = new jsPDF('p', 'mm', 'a4')
       
-      const imgWidth = 210 // A4 width in mm
-      const pageHeight = 297 // A4 height in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width
-      let heightLeft = imgHeight
-
-      let position = 0
-
-      // 第一頁
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-      heightLeft -= pageHeight
-
-      // 如果內容超過一頁，添加更多頁面
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight
-        pdf.addPage()
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-        heightLeft -= pageHeight
+      const pdfWidth = 210 // A4 width in mm
+      const pdfHeight = 297 // A4 height in mm
+      const imgWidth = pdfWidth
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width
+      
+      // 計算需要多少頁
+      const totalPages = Math.ceil(imgHeight / pdfHeight)
+      
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) {
+          pdf.addPage()
+        }
+        
+        const yPosition = -(page * pdfHeight)
+        pdf.addImage(imgData, 'PNG', 0, yPosition, imgWidth, imgHeight)
       }
 
       // 下載 PDF
