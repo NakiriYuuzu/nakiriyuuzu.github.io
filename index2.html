@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蔡淇鴻 NakiriYuuzu | Full-Stack Engineer</title>
+    <meta name="description" content="Full-Stack Engineer specializing in Kotlin, Swift, Vue.js, and .NET. Building elegant solutions for complex problems.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#18181B',
+                        accent: '#2563EB',
+                        background: '#FAFAFA',
+                        surface: '#FFFFFF',
+                        'text-primary': '#18181B',
+                        'text-secondary': '#52525B',
+                    },
+                    fontFamily: {
+                        'heading': ['Space Grotesk', 'sans-serif'],
+                        'body': ['DM Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+            --gradient-cool: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FAFAFA;
+            color: #18181B;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .glass-dark {
+            background: rgba(24, 24, 27, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Gradient Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -200px;
+            left: -200px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 100px;
+            right: -150px;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: -100px;
+            left: 30%;
+        }
+
+        /* Floating Card */
+        .floating-card {
+            transition: transform 0.3s ease-out;
+        }
+
+        /* Nav Link Underline */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Skill Marquee */
+        .marquee {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-reverse .marquee-content {
+            animation-direction: reverse;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Timeline */
+        .timeline-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+
+        .timeline-node {
+            transform-origin: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Project Number */
+        .project-number {
+            font-size: 12rem;
+            font-weight: 700;
+            opacity: 0.05;
+            position: absolute;
+            top: -40px;
+            left: -20px;
+            line-height: 1;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Button Gradient Border */
+        .btn-gradient {
+            position: relative;
+            background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+            border-radius: 9999px;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #18181B;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+
+        /* Card Hover Effect */
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .marquee-content {
+                animation: none;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Code Block Style */
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+        }
+
+        .code-line {
+            display: flex;
+            gap: 16px;
+        }
+
+        .line-number {
+            color: #6b7280;
+            user-select: none;
+            min-width: 24px;
+            text-align: right;
+        }
+
+        .code-keyword { color: #c586c0; }
+        .code-function { color: #dcdcaa; }
+        .code-string { color: #ce9178; }
+        .code-variable { color: #9cdcfe; }
+        .code-comment { color: #6a9955; }
+        .code-type { color: #4ec9b0; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 glass border-b border-gray-200/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-[72px]">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-purple-600 flex items-center justify-center">
+                        <span class="text-white font-heading font-bold text-lg">Y</span>
+                    </div>
+                    <span class="font-heading font-semibold text-lg hidden sm:block">Yuuzu</span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#skills" class="nav-link text-text-secondary hover:text-primary transition-colors">Skills</a>
+                    <a href="#projects" class="nav-link text-text-secondary hover:text-primary transition-colors">Projects</a>
+                    <a href="#experience" class="nav-link text-text-secondary hover:text-primary transition-colors">Experience</a>
+                    <a href="#about" class="nav-link text-text-secondary hover:text-primary transition-colors">About</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-full font-medium hover:bg-gray-800 transition-colors">
+                        <span>Contact Me</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-y-0 right-0 w-full max-w-sm z-50 bg-white shadow-2xl md:hidden">
+        <div class="flex flex-col h-full p-6">
+            <div class="flex justify-end">
+                <button id="mobile-menu-close" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col gap-4 mt-8">
+                <a href="#skills" class="text-xl font-medium py-3 border-b border-gray-100">Skills</a>
+                <a href="#projects" class="text-xl font-medium py-3 border-b border-gray-100">Projects</a>
+                <a href="#experience" class="text-xl font-medium py-3 border-b border-gray-100">Experience</a>
+                <a href="#about" class="text-xl font-medium py-3 border-b border-gray-100">About</a>
+                <a href="#contact" class="text-xl font-medium py-3 border-b border-gray-100">Contact</a>
+            </nav>
+            <div class="mt-auto">
+                <a href="#contact" class="block w-full text-center px-6 py-3 bg-primary text-white rounded-full font-medium">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity md:hidden"></div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+        <!-- Gradient Orbs -->
+        <div class="orb orb-1" id="orb-1"></div>
+        <div class="orb orb-2" id="orb-2"></div>
+        <div class="orb orb-3" id="orb-3"></div>
+
+        <!-- Grid Pattern -->
+        <div class="absolute inset-0 grid-pattern"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Left Content -->
+                <div class="hero-content">
+                    <!-- Status Badge -->
+                    <div class="hero-line inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-sm font-medium text-green-700">Available for new opportunities</span>
+                    </div>
+
+                    <!-- Main Heading -->
+                    <h1 class="hero-line font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        Hi, I'm <span class="gradient-text">蔡淇鴻</span>
+                        <br>
+                        <span class="text-text-secondary">Full-Stack Engineer</span>
+                    </h1>
+
+                    <!-- Description -->
+                    <p class="hero-line text-lg text-text-secondary max-w-lg mb-8">
+                        Crafting elegant solutions for complex problems. Specializing in
+                        <span class="text-primary font-medium">Kotlin</span>,
+                        <span class="text-primary font-medium">Swift</span>,
+                        <span class="text-primary font-medium">Vue.js</span>, and
+                        <span class="text-primary font-medium">.NET</span>.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="hero-line flex flex-wrap gap-4">
+                        <a href="#projects" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-full font-medium hover:bg-gray-800 transition-all hover:scale-105">
+                            <span>View Projects</span>
+                            <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://github.com/NakiriYuuzu" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-full font-medium border-2 border-gray-200 hover:border-primary transition-all hover:scale-105">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="hero-line flex gap-8 mt-12 pt-8 border-t border-gray-200">
+                        <div>
+                            <div class="text-3xl font-heading font-bold">3+</div>
+                            <div class="text-sm text-text-secondary">Years Experience</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-heading font-bold">20+</div>
+                            <div class="text-sm text-text-secondary">Projects Completed</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-heading font-bold">7</div>
+                            <div class="text-sm text-text-secondary">Languages</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - Floating Cards -->
+                <div class="relative hidden lg:block h-[600px]">
+                    <!-- Code Card -->
+                    <div class="floating-card absolute top-0 right-0 w-[380px] code-block p-4 shadow-2xl" id="float-card-1">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-gray-400 text-sm">Developer.kt</span>
+                        </div>
+                        <div class="space-y-1 text-sm">
+                            <div class="code-line"><span class="line-number">1</span><span><span class="code-keyword">class</span> <span class="code-type">Developer</span> {</span></div>
+                            <div class="code-line"><span class="line-number">2</span><span>    <span class="code-keyword">val</span> <span class="code-variable">name</span> = <span class="code-string">"蔡淇鴻"</span></span></div>
+                            <div class="code-line"><span class="line-number">3</span><span>    <span class="code-keyword">val</span> <span class="code-variable">role</span> = <span class="code-string">"Full-Stack"</span></span></div>
+                            <div class="code-line"><span class="line-number">4</span><span></span></div>
+                            <div class="code-line"><span class="line-number">5</span><span>    <span class="code-keyword">fun</span> <span class="code-function">skills</span>() = <span class="code-keyword">listOf</span>(</span></div>
+                            <div class="code-line"><span class="line-number">6</span><span>        <span class="code-string">"Kotlin"</span>, <span class="code-string">"Swift"</span>,</span></div>
+                            <div class="code-line"><span class="line-number">7</span><span>        <span class="code-string">"Vue.js"</span>, <span class="code-string">"ASP.NET"</span></span></div>
+                            <div class="code-line"><span class="line-number">8</span><span>    )</span></div>
+                            <div class="code-line"><span class="line-number">9</span><span>}</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Project Preview Card -->
+                    <div class="floating-card absolute top-40 left-0 w-[320px] bg-white rounded-2xl shadow-2xl overflow-hidden" id="float-card-2">
+                        <div class="h-40 bg-gradient-to-br from-accent to-purple-600 flex items-center justify-center">
+                            <i data-lucide="smartphone" class="w-16 h-16 text-white/80"></i>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-heading font-semibold text-lg mb-2">Weather App</h4>
+                            <p class="text-sm text-text-secondary mb-3">Kotlin Multiplatform weather application with Material 3 design</p>
+                            <div class="flex gap-2">
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full">Kotlin</span>
+                                <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">Compose</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="floating-card absolute bottom-20 right-20 w-[200px] bg-white rounded-2xl shadow-2xl p-5" id="float-card-3">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-green-600"></i>
+                            </div>
+                            <span class="text-sm text-text-secondary">Commits</span>
+                        </div>
+                        <div class="text-3xl font-heading font-bold">1,234+</div>
+                        <div class="text-sm text-green-600 mt-1">+12% this month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-secondary">
+            <span class="text-sm">Scroll to explore</span>
+            <div class="w-6 h-10 rounded-full border-2 border-gray-300 flex justify-center pt-2">
+                <div class="w-1 h-3 bg-gray-400 rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-primary text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-white/10 rounded-full text-sm font-medium mb-4">Technical Skills</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-bold mb-4">Skills & Technologies</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">A comprehensive toolkit built over years of hands-on experience across multiple platforms and frameworks.</p>
+            </div>
+        </div>
+
+        <!-- Skill Marquee -->
+        <div class="mb-16 space-y-6">
+            <!-- Row 1 - Left to Right -->
+            <div class="marquee" id="marquee-1">
+                <div class="marquee-content">
+                    <div class="flex gap-4 px-2">
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Java</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Python</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Kotlin</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">C#</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Swift</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">JavaScript</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">TypeScript</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Vue.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">React.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">ASP.NET Core</span>
+                    </div>
+                    <div class="flex gap-4 px-2">
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Java</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Python</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Kotlin</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">C#</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Swift</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">JavaScript</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">TypeScript</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Vue.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">React.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">ASP.NET Core</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 - Right to Left -->
+            <div class="marquee marquee-reverse" id="marquee-2">
+                <div class="marquee-content">
+                    <div class="flex gap-4 px-2">
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Docker</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Git</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">CI/CD</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">LAMP Stack</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Django</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Flask</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">SwiftUI</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Jetpack Compose</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Node.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">MongoDB</span>
+                    </div>
+                    <div class="flex gap-4 px-2">
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Docker</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Git</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">CI/CD</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">LAMP Stack</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Django</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Flask</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">SwiftUI</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Jetpack Compose</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">Node.js</span>
+                        <span class="px-6 py-3 bg-white/10 rounded-full text-lg font-medium whitespace-nowrap">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Languages -->
+                <div class="skill-card glass-dark rounded-2xl p-6 border border-white/10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
+                        <i data-lucide="code-2" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-3">Languages</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>Java</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>Python</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>Kotlin</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>C#</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>Swift</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>JavaScript / TypeScript</li>
+                    </ul>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-card glass-dark rounded-2xl p-6 border border-white/10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-4">
+                        <i data-lucide="server" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-3">Backend</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>JSP Servlet</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Django</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Flask</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>ASP.NET Core</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Node.js</li>
+                    </ul>
+                </div>
+
+                <!-- Frontend -->
+                <div class="skill-card glass-dark rounded-2xl p-6 border border-white/10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4">
+                        <i data-lucide="layout" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-3">Frontend</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>Kotlin Multiplatform</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>SwiftUI</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>Vue.js</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>React.js</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>Jetpack Compose</li>
+                    </ul>
+                </div>
+
+                <!-- Tools -->
+                <div class="skill-card glass-dark rounded-2xl p-6 border border-white/10">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4">
+                        <i data-lucide="wrench" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-3">Tools</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>Git</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>Docker</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>LAMP Stack</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>CI/CD</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>Unity / ARCore</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">Portfolio</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-bold mb-4">Featured Projects</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">A selection of projects that showcase my skills in mobile development, web applications, and cutting-edge technologies.</p>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="space-y-24">
+                <!-- Project 1 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="relative order-2 lg:order-1">
+                        <span class="project-number">01</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">Mobile</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full">Multiplatform</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">Weather App</h3>
+                            <p class="text-text-secondary mb-6">A cross-platform weather application built with Kotlin Multiplatform, featuring Material 3 design, real-time weather data, and smooth animations.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Kotlin</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Compose</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">KMP</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Material 3</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image order-1 lg:order-2">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="cloud-sun" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="project-image">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-green-500 to-teal-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="wallet" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="project-number">02</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Android</span>
+                                <span class="px-3 py-1 bg-teal-100 text-teal-700 text-sm rounded-full">Finance</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">Expense Tracking App</h3>
+                            <p class="text-text-secondary mb-6">A comprehensive expense tracking application with beautiful charts, budget management, and local data persistence using Room database.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Kotlin</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Room</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Charts</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">MVVM</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="relative order-2 lg:order-1">
+                        <span class="project-number">03</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-orange-100 text-orange-700 text-sm rounded-full">iOS</span>
+                                <span class="px-3 py-1 bg-pink-100 text-pink-700 text-sm rounded-full">SwiftUI</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">Diary Note App</h3>
+                            <p class="text-text-secondary mb-6">A beautiful diary application built with SwiftUI, featuring Core Data persistence, rich text editing, and mood tracking.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Swift</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">SwiftUI</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Core Data</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image order-1 lg:order-2">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-orange-500 to-pink-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="book-open" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="project-image">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500 to-blue-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="map-pin" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="project-number">04</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm rounded-full">IoT</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">ML</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">Campus Micro-Positioning</h3>
+                            <p class="text-text-secondary mb-6">An innovative indoor positioning system using BLE beacons and machine learning for accurate campus navigation.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Java</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Android</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">BLE</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">ML</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="relative order-2 lg:order-1">
+                        <span class="project-number">05</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm rounded-full">Web</span>
+                                <span class="px-3 py-1 bg-cyan-100 text-cyan-700 text-sm rounded-full">Real-time</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">Course Interaction App</h3>
+                            <p class="text-text-secondary mb-6">A real-time classroom interaction platform with live Q&A, polls, and instant feedback using WebSocket technology.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Vue.js</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Node.js</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">WebSocket</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">MongoDB</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image order-1 lg:order-2">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-500 to-cyan-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="users" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                    <div class="project-image">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-violet-500 to-fuchsia-600 aspect-[4/3] flex items-center justify-center shadow-2xl">
+                            <i data-lucide="scan" class="w-32 h-32 text-white/20"></i>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="project-number">06</span>
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="px-3 py-1 bg-violet-100 text-violet-700 text-sm rounded-full">AR</span>
+                                <span class="px-3 py-1 bg-fuchsia-100 text-fuchsia-700 text-sm rounded-full">IoT</span>
+                            </div>
+                            <h3 class="font-heading text-2xl sm:text-3xl font-bold mb-4">AR/IoT UI Technology</h3>
+                            <p class="text-text-secondary mb-6">An augmented reality application integrating IoT devices with AR visualization for interactive smart home control.</p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">Unity</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">ARCore</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">C#</span>
+                                <span class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-lg">IoT</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                                <span>View Project</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">Career</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-bold mb-4">Experience & Education</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">My professional journey in software development and academic background.</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative max-w-3xl mx-auto">
+                <!-- Timeline Line -->
+                <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gray-200 transform md:-translate-x-1/2">
+                    <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                        <line id="timeline-line" x1="0" y1="0" x2="0" y2="100%" stroke="url(#timeline-gradient)" stroke-width="2" class="timeline-path"/>
+                        <defs>
+                            <linearGradient id="timeline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#2563EB"/>
+                                <stop offset="100%" style="stop-color:#7C3AED"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <!-- Timeline Items -->
+                <div class="space-y-12">
+                    <!-- Experience 1 -->
+                    <div class="timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
+                        <div class="flex-1 md:text-right order-2 md:order-1">
+                            <div class="experience-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <div class="flex items-center gap-2 mb-2 md:justify-end">
+                                    <i data-lucide="building-2" class="w-4 h-4 text-accent"></i>
+                                    <span class="text-sm text-accent font-medium">天思數位</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-xl mb-2">軟體工程師</h3>
+                                <p class="text-text-secondary text-sm mb-3">負責全端開發、系統架構設計與 AI 整合專案</p>
+                                <div class="flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Vue.js</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">ASP.NET</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">AI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-node absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-accent rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 order-1 md:order-2 pl-8 md:pl-0">
+                            <span class="text-sm font-medium text-text-secondary">2024/05 - 現在</span>
+                        </div>
+                    </div>
+
+                    <!-- Experience 2 -->
+                    <div class="timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
+                        <div class="flex-1 md:text-right order-2 md:order-1 pl-8 md:pl-0">
+                            <span class="text-sm font-medium text-text-secondary">2023/07 - 2023/09</span>
+                        </div>
+                        <div class="timeline-node absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 order-1 md:order-2">
+                            <div class="experience-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i data-lucide="building-2" class="w-4 h-4 text-purple-500"></i>
+                                    <span class="text-sm text-purple-500 font-medium">翰榮科技</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-xl mb-2">約聘工程師</h3>
+                                <p class="text-text-secondary text-sm mb-3">參與行動應用程式開發與後端 API 設計</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Kotlin</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Android</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience 3 -->
+                    <div class="timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
+                        <div class="flex-1 md:text-right order-2 md:order-1">
+                            <div class="experience-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <div class="flex items-center gap-2 mb-2 md:justify-end">
+                                    <i data-lucide="building-2" class="w-4 h-4 text-green-500"></i>
+                                    <span class="text-sm text-green-500 font-medium">國興資訊</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-xl mb-2">實習生</h3>
+                                <p class="text-text-secondary text-sm mb-3">學習企業級軟體開發流程與團隊協作</p>
+                                <div class="flex flex-wrap gap-2 md:justify-end">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Java</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Web</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-node absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 order-1 md:order-2 pl-8 md:pl-0">
+                            <span class="text-sm font-medium text-text-secondary">2022/07 - 2023/01</span>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="timeline-item relative flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16">
+                        <div class="flex-1 md:text-right order-2 md:order-1 pl-8 md:pl-0">
+                            <span class="text-sm font-medium text-text-secondary">畢業於 2024/01</span>
+                        </div>
+                        <div class="timeline-node absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="flex-1 order-1 md:order-2">
+                            <div class="experience-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i data-lucide="graduation-cap" class="w-4 h-4 text-orange-500"></i>
+                                    <span class="text-sm text-orange-500 font-medium">Education</span>
+                                </div>
+                                <h3 class="font-heading font-bold text-xl mb-2">靜宜大學</h3>
+                                <p class="text-text-secondary text-sm mb-3">資訊工程學系 學士</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Computer Science</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">Software Engineering</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div>
+                    <span class="inline-block px-4 py-2 bg-white/10 rounded-full text-sm font-medium mb-6">About Me</span>
+                    <h2 class="font-heading text-4xl sm:text-5xl font-bold mb-6">Passionate about creating impactful solutions</h2>
+                    <p class="text-gray-400 text-lg mb-8">
+                        我是一位熱衷於軟體開發的全端工程師，專注於建構優雅且高效的解決方案。從行動應用到網頁平台，我享受將創意轉化為實際產品的過程。
+                    </p>
+
+                    <!-- Traits -->
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Problem Solver</span>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Team Player</span>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Fast Learner</span>
+                        <span class="px-4 py-2 bg-white/10 rounded-full text-sm">Detail-Oriented</span>
+                    </div>
+                </div>
+
+                <!-- Right Content -->
+                <div class="space-y-6">
+                    <!-- Education Card -->
+                    <div class="about-card glass-dark rounded-2xl p-6 border border-white/10">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                                <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-semibold text-lg">Education</h3>
+                                <p class="text-gray-400 text-sm">靜宜大學 資訊工程系</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400">專注於軟體工程、演算法與資料結構，並在多項專題競賽中獲得佳績。</p>
+                    </div>
+
+                    <!-- Languages Card -->
+                    <div class="about-card glass-dark rounded-2xl p-6 border border-white/10">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                <i data-lucide="languages" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-semibold text-lg">Languages</h3>
+                                <p class="text-gray-400 text-sm">Multilingual Capabilities</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>中文 (繁體)</span>
+                                    <span class="text-gray-400">Native</span>
+                                </div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>English</span>
+                                    <span class="text-gray-400">Intermediate</span>
+                                </div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-3/4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>日本語</span>
+                                    <span class="text-gray-400">Basic</span>
+                                </div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-1/3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Motivation Card -->
+                    <div class="about-card glass-dark rounded-2xl p-6 border border-white/10">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                                <i data-lucide="rocket" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-semibold text-lg">What Drives Me</h3>
+                                <p class="text-gray-400 text-sm">Passion & Purpose</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400">熱愛探索新技術，持續學習並挑戰自我。相信好的軟體能夠改變世界，致力於創造有價值的數位產品。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <span class="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">Contact</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-bold mb-4">Let's Work Together</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">Have a project in mind or want to discuss opportunities? I'd love to hear from you.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <!-- Email Card -->
+                <a href="mailto:yuuzu@yuuzu.net" class="contact-card card-hover bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="mail" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-2">Email</h3>
+                    <p class="text-accent font-medium">yuuzu@yuuzu.net</p>
+                </a>
+
+                <!-- Phone Card -->
+                <a href="tel:0958728030" class="contact-card card-hover bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="phone" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-2">Phone</h3>
+                    <p class="text-accent font-medium">0958-728-030</p>
+                </a>
+
+                <!-- GitHub Card -->
+                <a href="https://github.com/NakiriYuuzu" target="_blank" class="contact-card card-hover bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="github" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="font-heading font-semibold text-xl mb-2">GitHub</h3>
+                    <p class="text-accent font-medium">@NakiriYuuzu</p>
+                </a>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="max-w-2xl mx-auto">
+                <form class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                    <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-text-primary mb-2">Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-text-primary mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="your@email.com">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="subject" class="block text-sm font-medium text-text-primary mb-2">Subject</label>
+                        <input type="text" id="subject" name="subject" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all" placeholder="What's this about?">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-sm font-medium text-text-primary mb-2">Message</label>
+                        <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all resize-none" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full px-8 py-4 bg-primary text-white rounded-xl font-medium hover:bg-gray-800 transition-all flex items-center justify-center gap-2">
+                        <span>Send Message</span>
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <!-- Logo & Description -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-heading font-bold text-lg">Y</span>
+                        </div>
+                        <span class="font-heading font-semibold text-lg">Yuuzu</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Full-Stack Engineer passionate about creating elegant solutions for complex problems.</p>
+                    <!-- Social Links -->
+                    <div class="flex gap-4">
+                        <a href="https://github.com/NakiriYuuzu" target="_blank" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                        <a href="mailto:yuuzu@yuuzu.net" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </a>
+                        <a href="tel:0958728030" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-heading font-semibold text-lg mb-4">Quick Links</h4>
+                    <nav class="space-y-3">
+                        <a href="#skills" class="block text-gray-400 hover:text-white transition-colors">Skills</a>
+                        <a href="#projects" class="block text-gray-400 hover:text-white transition-colors">Projects</a>
+                        <a href="#experience" class="block text-gray-400 hover:text-white transition-colors">Experience</a>
+                        <a href="#about" class="block text-gray-400 hover:text-white transition-colors">About</a>
+                        <a href="#contact" class="block text-gray-400 hover:text-white transition-colors">Contact</a>
+                    </nav>
+                </div>
+
+                <!-- Tech Stack -->
+                <div>
+                    <h4 class="font-heading font-semibold text-lg mb-4">Built With</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm">HTML</span>
+                        <span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm">Tailwind CSS</span>
+                        <span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm">GSAP</span>
+                        <span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm">Lenis</span>
+                        <span class="px-3 py-1.5 bg-white/10 rounded-lg text-sm">Lucide Icons</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">© 2024 蔡淇鴻. All rights reserved.</p>
+                <p class="text-gray-400 text-sm">Designed with 💜 in Taiwan</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis (Smooth Scroll) -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Initialize Lenis (Smooth Scroll)
+        let lenis;
+        if (!prefersReducedMotion) {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // Connect Lenis to GSAP ScrollTrigger
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('open');
+            mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenuOverlay.classList.add('opacity-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenuOverlay.classList.remove('opacity-100');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // GSAP Animations (only if motion is not reduced)
+        if (!prefersReducedMotion) {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Section Animations
+            // Initial load animation
+            gsap.from('.hero-line', {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out',
+                delay: 0.3
+            });
+
+            // Floating cards entrance
+            gsap.from('.floating-card', {
+                y: 100,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 0.8
+            });
+
+            // Hero content fade out on scroll
+            gsap.to('.hero-content', {
+                y: -100,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+
+            // Floating cards fly out on scroll
+            gsap.to('#float-card-1', {
+                x: 200,
+                y: -150,
+                rotation: 15,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'center top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+
+            gsap.to('#float-card-2', {
+                x: -200,
+                y: -100,
+                rotation: -10,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'center top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+
+            gsap.to('#float-card-3', {
+                x: 150,
+                y: 100,
+                rotation: 20,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'center top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+
+            // Orb parallax
+            gsap.to('#orb-1', {
+                y: -200,
+                scale: 1.2,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            gsap.to('#orb-2', {
+                y: -150,
+                x: 100,
+                scale: 0.8,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            gsap.to('#orb-3', {
+                y: -100,
+                scale: 1.1,
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 2
+                }
+            });
+
+            // Mouse tracking for floating cards
+            document.addEventListener('mousemove', (e) => {
+                const cards = document.querySelectorAll('.floating-card');
+                const mouseX = e.clientX / window.innerWidth - 0.5;
+                const mouseY = e.clientY / window.innerHeight - 0.5;
+
+                cards.forEach((card, index) => {
+                    const depth = (index + 1) * 15;
+                    gsap.to(card, {
+                        x: mouseX * depth,
+                        y: mouseY * depth,
+                        duration: 0.5,
+                        ease: 'power2.out'
+                    });
+                });
+            });
+
+            // Skills Section Animations
+            // Skill cards stagger
+            gsap.from('.skill-card', {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.skill-card',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // Marquee speed up on scroll
+            const marquees = document.querySelectorAll('.marquee-content');
+            marquees.forEach(marquee => {
+                ScrollTrigger.create({
+                    trigger: '#skills',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    onUpdate: (self) => {
+                        const speed = 30 - (self.progress * 20);
+                        marquee.style.animationDuration = `${speed}s`;
+                    }
+                });
+            });
+
+            // Projects Section Animations
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach((card, index) => {
+                const isEven = index % 2 === 0;
+                const direction = isEven ? -100 : 100;
+
+                // Card slide in
+                gsap.from(card, {
+                    x: direction,
+                    opacity: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+
+                // Image parallax
+                const image = card.querySelector('.project-image');
+                if (image) {
+                    gsap.to(image, {
+                        y: -50,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: 1
+                        }
+                    });
+                }
+            });
+
+            // Experience Section Animations
+            // Timeline path drawing
+            const timelinePath = document.querySelector('.timeline-path');
+            if (timelinePath) {
+                gsap.to(timelinePath, {
+                    strokeDashoffset: 0,
+                    scrollTrigger: {
+                        trigger: '#experience',
+                        start: 'top 60%',
+                        end: 'bottom 80%',
+                        scrub: 1
+                    }
+                });
+            }
+
+            // Timeline items
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                gsap.from(item.querySelector('.experience-card'), {
+                    y: 60,
+                    opacity: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+
+                // Node pop animation
+                gsap.from(item.querySelector('.timeline-node'), {
+                    scale: 0,
+                    duration: 0.5,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 75%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+
+            // About Section Animations
+            gsap.from('.about-card', {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.about-card',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // Contact Section Animations
+            gsap.from('.contact-card', {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.contact-card',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            gsap.from('form', {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: 'form',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 100) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    if (lenis) {
+                        lenis.scrollTo(target);
+                    } else {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Form submission (demo)
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! This is a demo form.');
+            form.reset();
+        });
+    </script>
+</body>
+</html>

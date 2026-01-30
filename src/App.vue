@@ -10,18 +10,18 @@ import ContactSection from '@/components/sections/ContactSection.vue'
 </script>
 
 <template>
-  <div class="min-h-screen">
-    <Navigation />
-    
-    <main>
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ProjectsSection />
-      <ExperienceSection />
-      <ContactSection />
-    </main>
-    
-    <Footer />
-  </div>
+    <div class="min-h-screen">
+        <Navigation />
+
+        <main>
+            <HeroSection />
+            <AboutSection />
+            <SkillsSection />
+            <ProjectsSection />
+            <ExperienceSection />
+            <ContactSection />
+        </main>
+
+        <Footer />
+    </div>
 </template>
