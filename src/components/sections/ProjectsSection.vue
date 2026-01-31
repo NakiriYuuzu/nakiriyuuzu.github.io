@@ -1,610 +1,267 @@
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import {
+    CloudSun,
+    Wallet,
+    BookOpen,
+    MapPin,
+    Users,
+    Scan,
+    ArrowRight,
+    ExternalLink
+} from 'lucide-vue-next'
+import { projects } from '@/data/portfolio'
+import { gsap, ScrollTrigger } from '@/lib/gsap'
+import ScrollReveal from '@/components/animation/ScrollReveal.vue'
+
+const projectsRef = ref<HTMLElement | null>(null)
+
+const getProjectIcon = (projectName: string) => {
+    const iconMap: Record<string, any> = {
+        'Weather App': CloudSun,
+        'Expense Tracking App': Wallet,
+        'Diary Note App': BookOpen,
+        'Campus Micro-Positioning Project': MapPin,
+        'Course Interaction App': Users,
+        'AR/IoT UI Technology App': Scan
+    }
+    return iconMap[projectName] || CloudSun
+}
+
+const getProjectGradient = (index: number) => {
+    const gradients = [
+        'from-green-500 to-emerald-600',
+        'from-blue-500 to-cyan-600',
+        'from-purple-500 to-violet-600',
+        'from-orange-500 to-amber-600',
+        'from-pink-500 to-rose-600',
+        'from-indigo-500 to-blue-600'
+    ]
+    return gradients[index % gradients.length]
+}
+
+const getProjectTags = (projectName: string) => {
+    const tagMap: Record<string, Array<{ label: string; class: string }>> = {
+        'Weather App': [
+            { label: 'Mobile', class: 'tag-blue' },
+            { label: 'Multiplatform', class: 'tag-purple' }
+        ],
+        'Expense Tracking App': [
+            { label: 'Android', class: 'tag-accent' },
+            { label: 'Finance', class: 'tag-blue' }
+        ],
+        'Diary Note App': [
+            { label: 'iOS', class: 'tag-purple' },
+            { label: 'SwiftUI', class: 'tag-accent' }
+        ],
+        'Campus Micro-Positioning Project': [
+            { label: 'IoT', class: 'tag-blue' },
+            { label: 'ML', class: 'tag-purple' }
+        ],
+        'Course Interaction App': [
+            { label: 'Web', class: 'tag-accent' },
+            { label: 'Real-time', class: 'tag-blue' }
+        ],
+        'AR/IoT UI Technology App': [
+            { label: 'AR', class: 'tag-purple' },
+            { label: 'IoT', class: 'tag-accent' }
+        ]
+    }
+    return tagMap[projectName] || [{ label: 'Project', class: 'tag' }]
+}
+
+onMounted(() => {
+    if (projectsRef.value) {
+        const projectCards = projectsRef.value.querySelectorAll('.project-item')
+
+        projectCards.forEach((card, index) => {
+            const isEven = index % 2 === 0
+            const content = card.querySelector('.project-content')
+            const image = card.querySelector('.project-image')
+
+            // Set initial state
+            gsap.set(content, {
+                x: isEven ? -100 : 100,
+                opacity: 0
+            })
+            gsap.set(image, {
+                x: isEven ? 100 : -100,
+                opacity: 0
+            })
+
+            // Create scroll trigger
+            ScrollTrigger.create({
+                trigger: card,
+                start: 'top 75%',
+                onEnter: () => {
+                    gsap.to(content, {
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: 'power3.out'
+                    })
+                    gsap.to(image, {
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        delay: 0.1,
+                        ease: 'power3.out'
+                    })
+                }
+            })
+
+            // Parallax effect on image
+            ScrollTrigger.create({
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+                onUpdate: (self) => {
+                    if (image) {
+                        gsap.set(image, {
+                            y: (self.progress - 0.5) * -50
+                        })
+                    }
+                }
+            })
+        })
+    }
+})
+
+onUnmounted(() => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+})
+</script>
+
 <template>
-    <section id="projects" class="section">
-        <!-- Background Decorations -->
-        <div class="projects-bg" aria-hidden="true"></div>
-        <div class="corner-decoration top-left" aria-hidden="true"></div>
-        <div class="corner-decoration top-right" aria-hidden="true"></div>
-        <div class="corner-decoration bottom-left" aria-hidden="true"></div>
-        <div class="corner-decoration bottom-right" aria-hidden="true"></div>
+    <section id="projects" class="section py-24 section-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <ScrollReveal direction="up" class="text-center mb-16">
+                <span class="section-badge">Portfolio</span>
+                <h2 class="headline-2 mb-4 text-text-primary">
+                    Featured <span class="gradient-text">Projects</span>
+                </h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    A selection of projects that showcase my skills in mobile development, web applications, and cutting-edge technologies.
+                </p>
+            </ScrollReveal>
 
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto">
-                <!-- Section Header -->
-                <header class="section-header">
-                    <div class="section-label">Portfolio</div>
-                    <h2 class="section-title">Featured Projects</h2>
-                    <p class="section-description">
-                        A showcase of applications and solutions I've built
-                    </p>
-                </header>
-
-                <!-- Bento Grid Projects -->
-                <div class="bento-projects">
-                    <article
-                        v-for="(project, index) in projectsWithSize"
-                        :key="project.name"
-                        class="bento-project-card"
-                        :class="[project.size, { 'is-visible': visibleProjects.has(index) }]"
-                        :style="{ '--delay': `${index * 100}ms` }"
-                        @mouseenter="hoveredProject = index"
-                        @mouseleave="hoveredProject = null"
-                    >
-                        <!-- Project Number - Gradient -->
-                        <span
-                            class="project-number-gradient"
-                            :class="{ 'is-hovered': hoveredProject === index }"
-                        >
-                            {{ String(index + 1).padStart(2, '0') }}
-                        </span>
-
-                        <!-- Background Gradient on Hover -->
-                        <div class="project-card-bg"></div>
-
-                        <!-- Content -->
-                        <div class="project-card-content">
-                            <!-- Icon -->
-                            <div class="project-icon-wrapper">
-                                <component
-                                    :is="getProjectIcon(project.name)"
-                                    class="w-7 h-7"
-                                />
+            <!-- Projects Grid -->
+            <div ref="projectsRef" class="space-y-32">
+                <!-- Project Cards - Alternating Layout -->
+                <article
+                    v-for="(project, index) in projects"
+                    :key="project.name"
+                    class="project-item project-card"
+                    :class="{ 'lg:[&>*:first-child]:order-2': index % 2 !== 0 }"
+                >
+                    <!-- Content Side -->
+                    <div class="project-content relative">
+                        <span class="project-number">{{ String(index + 1).padStart(2, '0') }}</span>
+                        <div class="relative z-10">
+                            <!-- Tags -->
+                            <div class="flex items-center gap-2 mb-4">
+                                <span
+                                    v-for="tag in getProjectTags(project.name)"
+                                    :key="tag.label"
+                                    class="tag"
+                                    :class="tag.class"
+                                >
+                                    {{ tag.label }}
+                                </span>
                             </div>
 
                             <!-- Title -->
-                            <h3 class="project-title">
-                                {{ project.name }}
-                            </h3>
+                            <h3 class="headline-3 mb-4 text-text-primary">{{ project.name }}</h3>
 
                             <!-- Description -->
-                            <p class="project-description">
-                                {{ project.description }}
-                            </p>
+                            <p class="text-text-secondary mb-6 text-lg leading-relaxed">{{ project.description }}</p>
 
                             <!-- Technologies -->
-                            <div class="project-tech-wrapper">
-                                <div class="project-tech-list">
-                                    <span
-                                        v-for="tech in project.technologies.slice(0, project.size === 'size-2x2' ? 6 : 4)"
-                                        :key="tech"
-                                        class="project-tech-tag"
-                                    >
-                                        {{ tech }}
-                                    </span>
-                                    <span
-                                        v-if="project.technologies.length > (project.size === 'size-2x2' ? 6 : 4)"
-                                        class="project-tech-more"
-                                    >
-                                        +{{ project.technologies.length - (project.size === 'size-2x2' ? 6 : 4) }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Actions -->
-                            <div class="project-actions">
-                                <button
-                                    v-if="project.link"
-                                    class="project-action-btn"
-                                    @click.stop="openLink(project.link)"
-                                >
-                                    <ExternalLink class="w-4 h-4" />
-                                    <span>Demo</span>
-                                </button>
-                                <button
-                                    v-if="project.github"
-                                    class="project-action-btn"
-                                    @click.stop="openLink(project.github)"
-                                >
-                                    <Github class="w-4 h-4" />
-                                    <span>Code</span>
-                                </button>
+                            <div class="flex flex-wrap gap-2 mb-8">
                                 <span
-                                    v-if="!project.link && !project.github"
-                                    class="project-private-badge"
+                                    v-for="tech in project.technologies"
+                                    :key="tech"
+                                    class="px-3 py-1.5 glass text-text-secondary text-sm rounded-lg"
                                 >
-                                    <Lock class="w-4 h-4" />
-                                    <span>Private</span>
+                                    {{ tech }}
                                 </span>
                             </div>
+
+                            <!-- Action Link -->
+                            <a
+                                href="#"
+                                class="group inline-flex items-center gap-2 text-accent font-semibold hover:gap-3 transition-all cursor-pointer"
+                            >
+                                <span>View Project</span>
+                                <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </a>
                         </div>
+                    </div>
 
-                        <!-- Featured Badge for Large Cards -->
-                        <div v-if="project.size === 'size-2x2'" class="featured-badge">
-                            <Sparkles class="w-3 h-3" />
-                            <span>Featured</span>
+                    <!-- Image Side -->
+                    <div class="project-image overflow-hidden rounded-2xl">
+                        <div
+                            class="project-image-gradient shadow-2xl h-full"
+                            :class="`bg-gradient-to-br ${getProjectGradient(index)}`"
+                        >
+                            <component
+                                :is="getProjectIcon(project.name)"
+                                class="w-32 h-32 text-white/20"
+                            />
+                            <!-- Overlay Effect -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                            <!-- External Link Icon -->
+                            <div class="absolute top-4 right-4 w-10 h-10 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <ExternalLink class="w-5 h-5 text-white" />
+                            </div>
                         </div>
-                    </article>
-                </div>
-
-                <!-- Project Stats -->
-                <div class="project-stats mt-16">
-                    <div
-                        v-for="stat in projectStats"
-                        :key="stat.label"
-                        class="project-stat-item glass-card"
-                    >
-                        <component :is="stat.icon" class="w-6 h-6 text-accent-purple" />
-                        <span class="stat-value">{{ stat.value }}</span>
-                        <span class="stat-label">{{ stat.label }}</span>
                     </div>
-                </div>
-
-                <!-- CTA -->
-                <div class="mt-20 text-center">
-                    <div class="cta-card glass-card">
-                        <div class="cta-glow"></div>
-                        <h3 class="headline-3 text-foreground mb-4">
-                            Interested in Collaboration?
-                        </h3>
-                        <p class="body-md text-muted-foreground mb-8">
-                            I'm always open to discussing new opportunities and
-                            interesting projects.
-                        </p>
-                        <button class="btn-primary btn-cta" @click="scrollToContact">
-                            <Mail class="w-4 h-4" />
-                            Let's Talk
-                        </button>
-                    </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import {
-    Cloud,
-    Smartphone,
-    FileText,
-    MapPin,
-    GraduationCap,
-    Gamepad2,
-    ExternalLink,
-    Github,
-    Lock,
-    Mail,
-    Sparkles,
-    Code2,
-    Layers,
-    Zap
-} from 'lucide-vue-next'
-import { projects } from '@/data/portfolio'
-
-// Hover state
-const hoveredProject = ref<number | null>(null)
-
-// Visibility for scroll animation
-const visibleProjects = ref<Set<number>>(new Set())
-
-onMounted(() => {
-    // Staggered reveal animation
-    projects.forEach((_, index) => {
-        setTimeout(() => {
-            visibleProjects.value.add(index)
-            visibleProjects.value = new Set(visibleProjects.value)
-        }, index * 100 + 200)
-    })
-})
-
-// Assign sizes to projects for Bento Grid
-interface ProjectWithSize {
-    name: string
-    description: string
-    technologies: string[]
-    link?: string
-    github?: string
-    size: string
-}
-
-const projectsWithSize = computed<ProjectWithSize[]>(() => {
-    return projects.map((project, index) => {
-        // Featured projects get larger cards
-        const featuredProjects = ['Campus Micro-Positioning Project', 'Weather App']
-        const size = featuredProjects.includes(project.name) ? 'size-2x2' : 'size-1x1'
-
-        return {
-            ...project,
-            size
-        }
-    })
-})
-
-const getProjectIcon = (projectName: string) => {
-    const iconMap: Record<string, any> = {
-        'Weather App': Cloud,
-        'Expense Tracking App': FileText,
-        'Diary Note App': FileText,
-        'Campus Micro-Positioning Project': MapPin,
-        'Course Interaction App': GraduationCap,
-        'AR/IoT UI Technology App': Gamepad2
-    }
-    return iconMap[projectName] || Smartphone
-}
-
-const projectStats = [
-    { icon: Code2, value: '6+', label: 'Projects' },
-    { icon: Layers, value: '15+', label: 'Technologies' },
-    { icon: Smartphone, value: '3', label: 'Mobile Apps' },
-    { icon: Zap, value: '2', label: 'Featured' }
-]
-
-const openLink = (url?: string) => {
-    if (url) {
-        window.open(url, '_blank')
-    }
-}
-
-const scrollToContact = () => {
-    const contactSection = document.getElementById('contact')
-    contactSection?.scrollIntoView({ behavior: 'smooth' })
-}
-</script>
-
 <style scoped>
-/* Projects Background */
-.projects-bg {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(201, 169, 98, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 60% at 80% 80%, rgba(128, 81, 255, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-/* Bento Projects Grid */
-.bento-projects {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(280px, auto);
-    gap: 1.5rem;
-}
-
-/* Bento Project Card */
-.bento-project-card {
+.project-item {
     position: relative;
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+}
+
+.project-image-gradient {
+    position: relative;
+    border-radius: 1rem;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-    transition: all 0.5s var(--ease-shopify);
-    transition-delay: var(--delay, 0ms);
-    cursor: pointer;
-}
-
-.bento-project-card.is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-/* Bento Sizes */
-.bento-project-card.size-1x1 {
-    grid-column: span 1;
-    grid-row: span 1;
-}
-
-.bento-project-card.size-2x2 {
-    grid-column: span 2;
-    grid-row: span 2;
-}
-
-/* Push Out Pop In Animation */
-.bento-project-card:hover {
-    animation: push-out-pop-in 0.4s var(--ease-shopify) forwards;
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
-    border-color: var(--color-accent);
-    z-index: 10;
-}
-
-.dark .bento-project-card:hover {
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
-}
-
-/* Project Number - Gradient */
-.project-number-gradient {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-family: var(--font-display);
-    font-size: 4rem;
-    font-weight: 300;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--color-border) 0%, transparent 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: all 0.3s ease;
-    z-index: 1;
-}
-
-.bento-project-card.size-2x2 .project-number-gradient {
-    font-size: 6rem;
-}
-
-.project-number-gradient.is-hovered {
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-purple) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Project Card Background */
-.project-card-bg {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(201, 169, 98, 0.03) 50%,
-        rgba(128, 81, 255, 0.03) 100%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.bento-project-card:hover .project-card-bg {
-    opacity: 1;
-}
-
-/* Project Card Content */
-.project-card-content {
-    position: relative;
-    z-index: 2;
-    padding: 2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.bento-project-card.size-2x2 .project-card-content {
-    padding: 2.5rem;
-}
-
-/* Project Icon */
-.project-icon-wrapper {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--color-accent) 0%, rgba(201, 169, 98, 0.2) 100%);
+    aspect-ratio: 4/3;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-accent-foreground);
-    margin-bottom: 1.5rem;
-    transition: all 0.3s var(--ease-shopify);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.bento-project-card:hover .project-icon-wrapper {
-    background: linear-gradient(135deg, var(--color-accent-purple) 0%, rgba(128, 81, 255, 0.2) 100%);
-    transform: scale(1.1) rotate(-5deg);
+.project-item:hover .project-image-gradient {
+    transform: scale(1.02);
 }
 
-/* Project Title */
-.project-title {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--color-foreground);
-    margin-bottom: 0.75rem;
-    transition: color 0.3s ease;
-}
-
-.bento-project-card.size-2x2 .project-title {
-    font-size: 2rem;
-}
-
-.bento-project-card:hover .project-title {
-    color: var(--color-accent);
-}
-
-/* Project Description */
-.project-description {
-    font-size: 0.875rem;
-    color: var(--color-muted-foreground);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
-}
-
-.bento-project-card.size-2x2 .project-description {
-    font-size: 1rem;
-}
-
-/* Project Tech */
-.project-tech-wrapper {
-    margin-bottom: 1.5rem;
-}
-
-.project-tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.project-tech-tag {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    background: var(--color-secondary);
-    border-radius: 9999px;
-    color: var(--color-foreground);
-    transition: all 0.2s ease;
-}
-
-.bento-project-card:hover .project-tech-tag {
-    background: var(--color-accent-purple);
-    color: var(--color-accent-purple-foreground);
-}
-
-.project-tech-more {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-muted-foreground);
-}
-
-/* Project Actions */
-.project-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: auto;
-}
-
-.project-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    color: var(--color-foreground);
-    transition: all var(--duration-interaction) var(--ease-shopify);
-    cursor: pointer;
-}
-
-.project-action-btn:hover {
-    background: var(--color-accent-purple);
-    color: var(--color-accent-purple-foreground);
-    border-color: var(--color-accent-purple);
-    transform: translateY(-2px);
-}
-
-.project-private-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: var(--color-muted-foreground);
-}
-
-/* Featured Badge */
-.featured-badge {
+.project-number {
+    font-family: var(--font-heading);
+    font-size: 8rem;
+    font-weight: 700;
+    opacity: 0.03;
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.375rem 0.75rem;
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-purple) 100%);
-    border-radius: 9999px;
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: white;
-}
-
-/* Project Stats */
-.project-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
-
-.project-stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1.5rem;
-    text-align: center;
-}
-
-.stat-value {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 500;
-    color: var(--color-foreground);
-}
-
-.stat-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-muted-foreground);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* CTA Card */
-.cta-card {
-    position: relative;
-    max-width: 42rem;
-    margin: 0 auto;
-    padding: 3rem;
-    overflow: hidden;
-}
-
-.cta-glow {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, var(--color-accent-purple) 0%, transparent 70%);
-    opacity: 0.1;
-    filter: blur(40px);
+    top: -2rem;
+    left: -1rem;
+    line-height: 1;
+    color: var(--color-text-primary);
     pointer-events: none;
 }
 
-.btn-cta {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple), var(--color-accent));
-    background-size: 200% 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    animation: gradient-shift 3s ease infinite;
-}
-
-.btn-cta:hover::before {
-    opacity: 0.2;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .bento-projects {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .project-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .bento-projects {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
-    }
-
-    .bento-project-card.size-1x1,
-    .bento-project-card.size-2x2 {
-        grid-column: span 1;
-        grid-row: span 1;
-    }
-
-    .project-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .project-number-gradient {
-        font-size: 3rem;
-    }
-
-    .bento-project-card.size-2x2 .project-number-gradient {
-        font-size: 3rem;
+@media (min-width: 1024px) {
+    .project-number {
+        font-size: 12rem;
+        top: -3rem;
+        left: -2rem;
     }
 }
 </style>

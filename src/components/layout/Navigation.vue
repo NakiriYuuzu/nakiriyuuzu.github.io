@@ -1,3 +1,59 @@
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { Menu, X, ArrowRight } from 'lucide-vue-next'
+import { useScrollStore } from '@/stores/scrollStore'
+import { useLenisScroll } from '@/composables/useLenisScroll'
+import { storeToRefs } from 'pinia'
+
+const scrollStore = useScrollStore()
+const { normalizedProgress, activeSection } = storeToRefs(scrollStore)
+const { scrollTo } = useLenisScroll()
+
+const isMobileMenuOpen = ref(false)
+const isScrolled = ref(false)
+
+const scrollProgress = computed(() => normalizedProgress.value)
+
+const navItems = [
+    { label: 'About', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Experience', href: '#experience' }
+]
+
+const scrollToTop = (event: Event) => {
+    event.preventDefault()
+    scrollTo(0, { duration: 1.2 })
+}
+
+const toggleMobileMenu = () => {
+    isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const handleNavClick = (event: Event, href: string) => {
+    event.preventDefault()
+    scrollTo(href, { duration: 1.2, offset: -80 })
+}
+
+const handleMobileNavClick = (event: Event, href: string) => {
+    handleNavClick(event, href)
+    isMobileMenuOpen.value = false
+}
+
+const handleScroll = () => {
+    isScrolled.value = window.scrollY > 50
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
+</script>
+
 <template>
     <div>
         <!-- Scroll Progress Bar -->
@@ -9,44 +65,43 @@
         </div>
 
         <header class="nav-floating" :class="{ scrolled: isScrolled }">
-            <nav class="px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-[72px]">
                     <!-- Logo -->
-                    <a
-                        href="#"
-                        class="logo-text headline-4 text-foreground hover:text-accent transition-colors"
-                    >
-                        Yuuzu
+                    <a href="#" class="flex items-center gap-3 group" @click="scrollToTop">
+                        <div class="logo-icon">
+                            <span class="text-bg-primary font-heading font-bold text-lg">Y</span>
+                        </div>
+                        <span class="font-heading font-semibold text-lg hidden sm:block text-text-primary group-hover:text-accent transition-colors">
+                            Yuuzu
+                        </span>
                     </a>
 
                     <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center gap-1">
+                    <div class="hidden md:flex items-center gap-8">
                         <a
                             v-for="item in navItems"
                             :key="item.href"
                             :href="item.href"
-                            class="nav-link-enhanced"
+                            class="nav-link"
                             :class="{ active: activeSection === item.href.slice(1) }"
-                            @click="smoothScroll"
+                            @click="(e) => handleNavClick(e, item.href)"
                         >
-                            <span class="nav-link-text">{{ item.label }}</span>
-                            <span class="nav-link-indicator"></span>
+                            {{ item.label }}
                         </a>
                     </div>
 
                     <!-- Actions -->
                     <div class="flex items-center gap-3">
-                        <!-- Theme Toggle with Animation -->
-                        <button
-                            class="theme-toggle"
-                            aria-label="Toggle theme"
-                            @click="toggleTheme"
+                        <!-- Contact CTA Button (Desktop) -->
+                        <a
+                            href="#contact"
+                            class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg-primary rounded-full font-medium hover:bg-accent/90 transition-all hover:gap-3 hover:shadow-lg hover:shadow-accent/20"
+                            @click="(e) => handleNavClick(e, '#contact')"
                         >
-                            <div class="theme-toggle-inner" :class="{ 'is-dark': isDark }">
-                                <Sun class="theme-icon sun-icon" />
-                                <Moon class="theme-icon moon-icon" />
-                            </div>
-                        </button>
+                            <span>Contact Me</span>
+                            <ArrowRight class="w-4 h-4" />
+                        </a>
 
                         <!-- Mobile Menu Button -->
                         <button
@@ -54,8 +109,8 @@
                             aria-label="Toggle menu"
                             @click="toggleMobileMenu"
                         >
-                            <Menu v-if="!isMobileMenuOpen" class="w-4 h-4" />
-                            <X v-else class="w-4 h-4" />
+                            <Menu v-if="!isMobileMenuOpen" class="w-5 h-5" />
+                            <X v-else class="w-5 h-5" />
                         </button>
                     </div>
                 </div>
@@ -80,10 +135,17 @@
                                 :href="item.href"
                                 class="mobile-nav-link"
                                 :class="{ active: activeSection === item.href.slice(1) }"
-                                @click="handleMobileNavClick"
+                                @click="(e) => handleMobileNavClick(e, item.href)"
                             >
                                 <span class="mobile-nav-indicator"></span>
                                 <span>{{ item.label }}</span>
+                            </a>
+                            <a
+                                href="#contact"
+                                class="mt-4 w-full text-center px-6 py-3 bg-accent text-bg-primary rounded-full font-medium"
+                                @click="(e) => handleMobileNavClick(e, '#contact')"
+                            >
+                                Get in Touch
                             </a>
                         </div>
                     </div>
@@ -92,105 +154,6 @@
         </header>
     </div>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { Sun, Moon, Menu, X } from 'lucide-vue-next'
-import { useScrollProgress } from '@/composables/useScrollProgress'
-
-const isDark = ref(false)
-const isMobileMenuOpen = ref(false)
-const isScrolled = ref(false)
-const activeSection = ref('')
-
-// Scroll progress
-const { progress } = useScrollProgress()
-const scrollProgress = computed(() => progress.value)
-
-const navItems = [
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Contact', href: '#contact' }
-]
-
-const toggleTheme = () => {
-    isDark.value = !isDark.value
-    document.documentElement.classList.toggle('dark', isDark.value)
-    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
-}
-
-const toggleMobileMenu = () => {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value
-}
-
-const smoothScroll = (event: Event) => {
-    event.preventDefault()
-    const target = event.target as HTMLAnchorElement
-    const href = target.getAttribute('href') || target.closest('a')?.getAttribute('href')
-    if (href) {
-        const element = document.querySelector(href)
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' })
-        }
-    }
-}
-
-const handleMobileNavClick = (event: Event) => {
-    smoothScroll(event)
-    isMobileMenuOpen.value = false
-}
-
-const handleScroll = () => {
-    isScrolled.value = window.scrollY > 50
-
-    // Update active section
-    const sections = navItems.map((item) => item.href.slice(1))
-    for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
-        if (element) {
-            const rect = element.getBoundingClientRect()
-            if (rect.top <= 150) {
-                activeSection.value = section
-                break
-            }
-        }
-    }
-}
-
-onMounted(() => {
-    // Theme initialization - System Preference by default
-    const savedTheme = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-    if (savedTheme) {
-        isDark.value = savedTheme === 'dark'
-    } else {
-        isDark.value = prefersDark
-    }
-
-    document.documentElement.classList.toggle('dark', isDark.value)
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-        if (!localStorage.getItem('theme')) {
-            isDark.value = e.matches
-            document.documentElement.classList.toggle('dark', isDark.value)
-        }
-    }
-    mediaQuery.addEventListener('change', handleSystemThemeChange)
-
-    // Scroll listener
-    window.addEventListener('scroll', handleScroll)
-    handleScroll()
-})
-
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-</script>
 
 <style scoped>
 /* Scroll Progress Container */
@@ -206,146 +169,61 @@ onUnmounted(() => {
 
 .scroll-progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple));
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
     transform-origin: left;
     transition: transform 50ms linear;
 }
 
-/* Logo */
-.logo-text {
-    position: relative;
-}
-
-.logo-text::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple));
-    transition: width 0.3s var(--ease-shopify);
-}
-
-.logo-text:hover::after {
-    width: 100%;
-}
-
-/* Enhanced Nav Link */
-.nav-link-enhanced {
-    position: relative;
+/* Logo Icon */
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 0.5rem 1rem;
+    justify-content: center;
+    transition: transform var(--duration-normal) var(--ease-out);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.group:hover .logo-icon {
+    transform: scale(1.05);
+}
+
+/* Nav Link */
+.nav-link {
+    position: relative;
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-muted-foreground);
+    color: var(--color-text-secondary);
     transition: color var(--duration-fast) ease;
     cursor: pointer;
     text-decoration: none;
 }
 
-.nav-link-enhanced:hover {
-    color: var(--color-foreground);
+.nav-link:hover {
+    color: var(--color-text-primary);
 }
 
-.nav-link-enhanced.active {
-    color: var(--color-foreground);
+.nav-link.active {
+    color: var(--color-accent);
 }
 
-.nav-link-text {
-    position: relative;
-    z-index: 1;
-}
-
-/* Nav Link Indicator */
-.nav-link-indicator {
+.nav-link::after {
+    content: '';
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--color-accent-purple);
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.3s var(--ease-shopify);
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
+    transition: width var(--duration-normal) var(--ease-out);
 }
 
-.nav-link-enhanced:hover .nav-link-indicator,
-.nav-link-enhanced.active .nav-link-indicator {
-    opacity: 1;
-}
-
-.nav-link-enhanced.active .nav-link-indicator {
-    width: 20px;
-    height: 3px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple));
-}
-
-/* Theme Toggle */
-.theme-toggle {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid var(--color-border);
-    background: transparent;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all var(--duration-interaction) ease;
-}
-
-.theme-toggle:hover {
-    background: var(--color-secondary);
-    border-color: var(--color-foreground);
-}
-
-.theme-toggle-inner {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.5s var(--ease-shopify);
-}
-
-.theme-toggle-inner.is-dark {
-    transform: rotate(180deg);
-}
-
-.theme-icon {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    color: var(--color-muted-foreground);
-    transition: all 0.3s ease;
-}
-
-.sun-icon {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-.moon-icon {
-    opacity: 0;
-    transform: rotate(-90deg) scale(0.5);
-}
-
-.theme-toggle-inner.is-dark .sun-icon {
-    opacity: 0;
-    transform: rotate(90deg) scale(0.5);
-}
-
-.theme-toggle-inner.is-dark .moon-icon {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-}
-
-.theme-toggle:hover .theme-icon {
-    color: var(--color-foreground);
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
 }
 
 /* Mobile Nav Link */
@@ -356,20 +234,20 @@ onUnmounted(() => {
     gap: 0.75rem;
     padding: 0.875rem 1rem;
     font-size: 0.9375rem;
-    color: var(--color-muted-foreground);
+    color: var(--color-text-secondary);
     border-radius: var(--radius);
     transition: all var(--duration-fast) ease;
     text-decoration: none;
 }
 
 .mobile-nav-link:hover {
-    color: var(--color-foreground);
-    background: var(--color-secondary);
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
 }
 
 .mobile-nav-link.active {
-    color: var(--color-foreground);
-    background: var(--color-secondary);
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
 }
 
 .mobile-nav-indicator {
@@ -377,19 +255,19 @@ onUnmounted(() => {
     height: 4px;
     background: var(--color-border);
     border-radius: 50%;
-    transition: all 0.3s var(--ease-shopify);
+    transition: all var(--duration-normal) var(--ease-out);
 }
 
 .mobile-nav-link:hover .mobile-nav-indicator,
 .mobile-nav-link.active .mobile-nav-indicator {
     width: 8px;
-    background: var(--color-accent-purple);
+    background: var(--color-accent);
 }
 
 .mobile-nav-link.active .mobile-nav-indicator {
     width: 20px;
     height: 4px;
     border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-purple));
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));
 }
 </style>
