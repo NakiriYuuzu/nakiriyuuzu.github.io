@@ -1078,6 +1078,208 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   DAVINCI LINES - Perspective Background Animation
+   ═══════════════════════════════════════════════════════════════════════════ */
+.davinci-lines {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.davinci-lines__line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 1;
+    opacity: 0;
+    animation: line-fade 4s ease-out forwards;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+}
+
+@keyframes line-fade {
+    0% {
+        opacity: 0;
+        stroke-dashoffset: 2000;
+    }
+    50% {
+        opacity: var(--line-opacity, 0.1);
+        stroke-dashoffset: 1000;
+    }
+    100% {
+        opacity: var(--line-opacity, 0.1);
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes load-lines {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .davinci-lines__line {
+        animation: none;
+        opacity: var(--line-opacity, 0.1);
+        stroke-dasharray: none;
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCENE BACKGROUND SYSTEM
+   ═══════════════════════════════════════════════════════════════════════════ */
+.scene-background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Enhanced card interactions */
+.card-3d-hover {
+    transform-style: preserve-3d;
+    transition: transform 0.5s var(--ease-out);
+}
+
+.card-3d-hover:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(20px);
+}
+
+/* Glow effects for cards */
+.card-glow {
+    position: relative;
+}
+
+.card-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    filter: blur(12px);
+    transition: opacity 0.3s ease;
+}
+
+.card-glow:hover::before {
+    opacity: 0.4;
+}
+
+/* Skill tag enhanced hover */
+.skill-tag-enhanced {
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-tag-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.skill-tag-enhanced:hover::before {
+    left: 100%;
+}
+
+/* Timeline enhanced line */
+.timeline-line-glow {
+    position: relative;
+}
+
+.timeline-line-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(8px);
+    opacity: 0.5;
+}
+
+/* Node pulse animation */
+.timeline-node-pulse {
+    animation: node-pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes node-pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 4px currentColor, 0 0 20px currentColor;
+    }
+    50% {
+        box-shadow: 0 0 0 8px currentColor, 0 0 40px currentColor;
+    }
+}
+
+/* Form input focus glow */
+.form-input-glow:focus {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2), 0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+/* Submit button loading state */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: btn-spin 0.8s linear infinite;
+}
+
+@keyframes btn-spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Success animation */
+@keyframes success-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(34, 197, 94, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+.animate-success {
+    animation: success-pulse 0.6s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    RESPONSIVE UTILITIES
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
@@ -1089,5 +1291,14 @@ h1, h2, h3, h4, h5, h6 {
 
     .section {
         padding: 4rem 0;
+    }
+
+    /* Disable complex effects on mobile */
+    .card-3d-hover:hover {
+        transform: none;
+    }
+
+    .card-glow::before {
+        display: none;
     }
 }

@@ -9,6 +9,8 @@ import ExperienceSection from '@/components/sections/ExperienceSection.vue'
 import ContactSection from '@/components/sections/ContactSection.vue'
 import LenisProvider from '@/components/animation/LenisProvider.vue'
 import ThreeCanvas from '@/components/three/ThreeCanvas.vue'
+import DavinciLines from '@/components/background/DavinciLines.vue'
+import SceneBackground from '@/components/background/SceneBackground.vue'
 import { useDeviceCapability } from '@/composables/useDeviceCapability'
 
 const { shouldEnable3D } = useDeviceCapability()
@@ -17,7 +19,13 @@ const { shouldEnable3D } = useDeviceCapability()
 <template>
     <LenisProvider>
         <div class="min-h-screen relative bg-bg-primary">
-            <!-- 3D Background (conditional rendering) -->
+            <!-- Scene Background (Section-specific scenes, z-index: -3) -->
+            <SceneBackground />
+
+            <!-- DaVinci Lines Background (SVG perspective lines, z-index: -2) -->
+            <DavinciLines />
+
+            <!-- 3D Background - FloatingOrbs only (z-index: -1, conditional rendering) -->
             <ThreeCanvas v-if="shouldEnable3D" />
 
             <Navigation />

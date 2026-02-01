@@ -1,24 +1,16 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { computed, ref, watch, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useScrollStore } from '@/stores/scrollStore'
 import { storeToRefs } from 'pinia'
-import ParticleField from './ParticleField.vue'
 import FloatingOrbs from './FloatingOrbs.vue'
-import GridLines from './GridLines.vue'
 
 const scrollStore = useScrollStore()
 const { normalizedProgress, activeSection } = storeToRefs(scrollStore)
 
-// Dynamic scene color based on scroll - Dark theme
-const sceneColor = computed(() => {
-    const progress = normalizedProgress.value
-    // Transition from deep navy to slightly lighter
-    const r = Math.floor(15 + progress * 5)
-    const g = Math.floor(23 + progress * 8)
-    const b = Math.floor(42 + progress * 10)
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
-})
+// Transparent background - DavinciLines handles the visual background
+// Use black with alpha channel for transparency
+const sceneColor = '#000000'
 
 // Camera position - subtle parallax effect
 const cameraPosition = ref<[number, number, number]>([0, 0, 5])
@@ -57,8 +49,7 @@ onMounted(() => {
                     :far="1000"
                 />
 
-                <GridLines :scroll-progress="normalizedProgress" />
-                <ParticleField :scroll-progress="normalizedProgress" />
+                <!-- GridLines and ParticleField removed - replaced by DavinciLines SVG -->
                 <FloatingOrbs :active-section="activeSection" :scroll-progress="normalizedProgress" />
 
                 <TresAmbientLight :intensity="0.3" />

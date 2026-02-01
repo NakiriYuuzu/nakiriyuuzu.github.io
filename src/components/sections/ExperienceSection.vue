@@ -181,6 +181,7 @@ onUnmounted(() => {
                 <!-- SVG Timeline Line -->
                 <svg
                     class="absolute left-0 md:left-1/2 top-0 h-full w-2 -translate-x-1/2 hidden md:block"
+                    viewBox="0 0 8 100"
                     preserveAspectRatio="none"
                 >
                     <defs>
@@ -193,7 +194,7 @@ onUnmounted(() => {
                     </defs>
                     <path
                         ref="timelineLineRef"
-                        d="M 4 0 L 4 100%"
+                        d="M 4 0 L 4 100"
                         stroke="url(#timeline-gradient)"
                         stroke-width="2"
                         fill="none"
